@@ -63,6 +63,20 @@ def test_seen_video_ids(tmp_dir="tests/_tmp_newsletters"):
     shutil.rmtree(p)
 
 
+def test_write_index(tmp_dir="tests/_tmp_docs"):
+    import shutil
+    from src.daily import write_index
+    root = pathlib.Path(tmp_dir)
+    shutil.rmtree(root, ignore_errors=True)
+    (root / "newsletters").mkdir(parents=True)
+    (root / "newsletters" / "2026-07-05.md").write_text("x", encoding="utf-8")
+    (root / "newsletters" / "2026-07-04.md").write_text("x", encoding="utf-8")
+    write_index(root)
+    idx = (root / "index.md").read_text(encoding="utf-8")
+    assert idx.index("2026-07-05.html") < idx.index("2026-07-04.html")  # newest first
+    shutil.rmtree(root)
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):
