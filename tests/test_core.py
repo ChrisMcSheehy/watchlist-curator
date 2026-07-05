@@ -28,6 +28,21 @@ def test_model_for():
     assert "/" in model_for("curation")
 
 
+def test_recent_entries():
+    import time
+    from types import SimpleNamespace
+    from src.sources import recent_entries
+    now = time.gmtime()
+    old = time.gmtime(time.time() - 90 * 3600)
+    parsed = SimpleNamespace(entries=[
+        {"title": "fresh", "link": "http://a", "summary": "x", "published_parsed": now},
+        {"title": "stale", "link": "http://b", "summary": "y", "published_parsed": old},
+        {"title": "undated", "link": "http://c", "summary": "z"},
+    ])
+    got = recent_entries(parsed, hours=24)
+    assert [e["title"] for e in got] == ["fresh"]
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):
