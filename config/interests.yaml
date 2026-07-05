@@ -1,0 +1,10 @@
+topics:
+  - Local / open-weight large language models (llama.cpp, Ollama, vLLM, quantization, new model releases)
+  - Snowflake (new features, performance, cost optimisation)
+  - dbt (releases, modelling patterns, testing, performance)
+  - LLM development (agents, APIs, evals, prompting, major provider news)
+github_keywords:
+  - local llm
+  - llm agent
+  - dbt
+  - snowflake

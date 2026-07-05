@@ -1,0 +1,3 @@
+# OpenRouter model IDs. Swap freely as cheaper/better models appear.
+research: perplexity/sonar-deep-research
+curation: anthropic/claude-sonnet-5
