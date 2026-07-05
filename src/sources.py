@@ -1,5 +1,5 @@
+import calendar
 import pathlib
-import time
 from datetime import datetime, timedelta, timezone
 
 import feedparser
@@ -16,7 +16,8 @@ def recent_entries(parsed, hours):
     out = []
     for e in parsed.entries:
         t = e.get("published_parsed") or e.get("updated_parsed")
-        if t and datetime.fromtimestamp(time.mktime(t), timezone.utc) >= since:
+        # feedparser gives UTC struct_times; timegm (not mktime) reads them as UTC
+        if t and datetime.fromtimestamp(calendar.timegm(t), timezone.utc) >= since:
             out.append({
                 "title": e.get("title", ""),
                 "link": e.get("link", ""),
