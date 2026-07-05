@@ -32,11 +32,16 @@ def write_newsletter(today, markdown, kind="Daily"):
 
 def main(dry_run=False):
     today = date.today()
-    yt = youtube.get_service()
-
-    videos = youtube.recent_videos(yt, channel_ids())
-    for v in videos:
-        v["transcript"] = youtube.captions(v["id"])
+    yt = None
+    videos = []
+    try:
+        yt = youtube.get_service()
+        videos = youtube.recent_videos(yt, channel_ids())
+        for v in videos:
+            v["transcript"] = youtube.captions(v["id"])
+    except Exception as e:
+        # spec: YouTube failure must not block the newsletter
+        print(f"WARNING: YouTube fetch failed, publishing without videos: {e}")
     feed_items = sources.fetch_feeds()
     research_text = sources.research()
     repos = sources.github_trending()
