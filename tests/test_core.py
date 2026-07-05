@@ -43,6 +43,26 @@ def test_recent_entries():
     assert [e["title"] for e in got] == ["fresh"]
 
 
+def test_parse_llm_json():
+    from src.curate import parse_llm_json
+    fenced = 'Here you go:\n```json\n{"a": [1, 2]}\n```'
+    assert parse_llm_json(fenced) == {"a": [1, 2]}
+    assert parse_llm_json('{"b": 1}') == {"b": 1}
+
+
+def test_seen_video_ids(tmp_dir="tests/_tmp_newsletters"):
+    import shutil
+    from src.curate import seen_video_ids
+    p = pathlib.Path(tmp_dir)
+    shutil.rmtree(p, ignore_errors=True)
+    p.mkdir(parents=True)
+    (p / "2026-07-04.md").write_text(
+        "watch [this](https://www.youtube.com/watch?v=abcdefghijk) "
+        "and [that](https://youtu.be/AAAAAAAAAAA)", encoding="utf-8")
+    assert seen_video_ids(p) == {"abcdefghijk", "AAAAAAAAAAA"}
+    shutil.rmtree(p)
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):
