@@ -22,6 +22,12 @@ def test_parse_duration():
     assert parse_duration(None) == 0
 
 
+def test_model_for():
+    from src.llm import model_for
+    assert model_for("research") == "perplexity/sonar-deep-research"
+    assert "/" in model_for("curation")
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):
