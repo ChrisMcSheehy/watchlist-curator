@@ -53,10 +53,12 @@ try { document.documentElement.dataset.theme = localStorage.getItem("theme") || 
 <p><strong>GigaChat3.5‑432B‑A28B</strong> (ai‑sage, <a href="https://huggingface.co/ai-sage/GigaChat3.5-432B-A28B">base model</a>, <a href="https://huggingface.co/ai-sage/GigaChat3.5-432B-A28B-GGUF">GGUF</a>): 432 billion total, ~28 billion active per token, ready for llama.cpp/Ollama via the GGUF repository. Early impressions are being shared on <a href="https://www.reddit.com/r/LocalLLaMA/comments/1uotkm7/new_model_gigachat35432ba28b_with_day0_gguf/">Reddit</a>.</p>
 </li>
 </ul>
-<p><strong>How to make the most of it:</strong>
-1. Pull the GGUF quants (e.g., Q4_K_M or IQ4_XS) to keep active parameters within 24 GB VRAM; test with your preferred engine.
-2. Monitor emerging benchmarks on reasoning, coding, and multilingual tasks — MoE behaviour can diverge from dense models of similar active size.
-3. If using vLLM, verify support status; custom layers may be needed until the runtime officially adopts these architectures.</p>
+<p><strong>How to make the most of it:</strong></p>
+<ol>
+<li>Pull the GGUF quants (e.g., Q4_K_M or IQ4_XS) to keep active parameters within 24 GB VRAM; test with your preferred engine.</li>
+<li>Monitor emerging benchmarks on reasoning, coding, and multilingual tasks — MoE behaviour can diverge from dense models of similar active size.</li>
+<li>If using vLLM, verify support status; custom layers may be needed until the runtime officially adopts these architectures.</li>
+</ol>
 <h2 id="deep-dive">Deep Dive</h2>
 <p><em>This section is assembled from the week’s deep research. All citations are rendered as inline markdown links to the original sources.</em></p>
 <h3 id="local-and-open-weight-llm-ecosystem">Local and Open-Weight LLM Ecosystem</h3>

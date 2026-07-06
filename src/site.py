@@ -183,6 +183,27 @@ WATCHLIST_H2_RE = re.compile(
     re.DOTALL)
 
 
+LIST_MARKER_RE = re.compile(r"^ {0,3}(?:[-*+]|\d+[.)])\s+\S")
+
+
+def _fix_tight_lists(md):
+    """Insert the blank line markdown needs before a list when the LLM omits it.
+
+    Without it, an intro line like '**How to make the most of it:**' directly
+    followed by '1. …' gets slurped into the paragraph and the list never renders.
+    Fenced code blocks are left untouched so list-like lines inside them survive."""
+    out, fenced = [], False
+    for line in md.split("\n"):
+        if line.lstrip().startswith("```"):
+            fenced = not fenced
+        elif (not fenced and LIST_MARKER_RE.match(line)
+                and out and out[-1].strip()
+                and not LIST_MARKER_RE.match(out[-1])):
+            out.append("")  # blank line so the following lines parse as a list
+        out.append(line)
+    return "\n".join(out)
+
+
 def _collapsible_watchlists(body_html):
     """Wrap watchlist sections in native <details> so they collapse/expand."""
     return WATCHLIST_H2_RE.sub(
@@ -203,7 +224,7 @@ def _style_citations(body_html):
 
 def _issue_html(it, prev_it, next_it):
     body_html = _style_citations(_collapsible_watchlists(
-        markdown.markdown(it["body"], extensions=["extra", "toc"])))
+        markdown.markdown(_fix_tight_lists(it["body"]), extensions=["extra", "toc"])))
     nav = ""
     if prev_it:
         nav += f'<a class="pager-link" href="{prev_it["slug"]}.html"><span class="mono dim">Older</span><span>{html.escape(prev_it["title"])}</span></a>'

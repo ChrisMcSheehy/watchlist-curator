@@ -147,6 +147,20 @@ def test_style_citations():
     assert _style_citations('<a href="http://v">Watch this</a>') == '<a href="http://v">Watch this</a>'
 
 
+def test_fix_tight_lists():
+    import markdown
+    from src.site import _fix_tight_lists
+    tight = "**How to make the most of it:**\n1. First\n2. Second"
+    fixed = _fix_tight_lists(tight)
+    assert "<ol>" in markdown.markdown(fixed)          # now renders as a real list
+    # already-spaced lists are unchanged (no spurious blank lines)
+    ok = "Intro\n\n- a\n- b"
+    assert _fix_tight_lists(ok) == ok
+    # list-like lines inside a code fence are left alone
+    fenced = "```\n1. not a list\n```"
+    assert _fix_tight_lists(fenced) == fenced
+
+
 def test_seen_repos(tmp_dir="tests/_tmp_repos"):
     import shutil
     from src.curate import seen_repos
