@@ -1,5 +1,6 @@
 import os
 import re
+import time
 from datetime import date, datetime, timedelta, timezone
 
 from google.oauth2.credentials import Credentials
@@ -109,11 +110,19 @@ def get_or_create_playlist(yt, name):
     return yt.playlists().insert(part="snippet,status", body=body).execute()["id"]
 
 
-def add_video(yt, playlist_id, video_id):
-    yt.playlistItems().insert(part="snippet", body={"snippet": {
-        "playlistId": playlist_id,
-        "resourceId": {"kind": "youtube#video", "videoId": video_id},
-    }}).execute()
+def add_video(yt, playlist_id, video_id, attempts=3):
+    # playlistItems.insert intermittently 409s (SERVICE_UNAVAILABLE); retry with backoff
+    for i in range(attempts):
+        try:
+            yt.playlistItems().insert(part="snippet", body={"snippet": {
+                "playlistId": playlist_id,
+                "resourceId": {"kind": "youtube#video", "videoId": video_id},
+            }}).execute()
+            return
+        except Exception:
+            if i == attempts - 1:
+                raise
+            time.sleep(5 * (i + 1))
 
 
 def delete_old_playlists(yt, days=30):
