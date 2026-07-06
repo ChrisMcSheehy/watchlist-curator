@@ -125,6 +125,38 @@ def test_site_build(tmp_dir="tests/_tmp_site"):
     shutil.rmtree(root)
 
 
+def test_seen_repos(tmp_dir="tests/_tmp_repos"):
+    import shutil
+    from src.curate import seen_repos
+    p = pathlib.Path(tmp_dir)
+    shutil.rmtree(p, ignore_errors=True)
+    p.mkdir(parents=True)
+    (p / "2026-07-04.md").write_text(
+        "[a](https://github.com/Foo/Bar) and [b](https://github.com/baz/qux.git)",
+        encoding="utf-8")
+    assert seen_repos(p) == {"foo/bar", "baz/qux"}
+    shutil.rmtree(p)
+
+
+def test_video_ledger(tmp_dir="tests/_tmp_ledger"):
+    import shutil
+    from src import curate
+    p = pathlib.Path(tmp_dir)
+    shutil.rmtree(p, ignore_errors=True)
+    p.mkdir(parents=True)
+    old_ledger = curate.SEEN_LEDGER
+    curate.SEEN_LEDGER = p / "seen_videos.txt"
+    try:
+        curate.remember_videos(["AAAAAAAAAAA", "BBBBBBBBBBB"])
+        curate.remember_videos(["BBBBBBBBBBB", "CCCCCCCCCCC"])  # dedupes
+        assert curate.SEEN_LEDGER.read_text(encoding="utf-8").split() == [
+            "AAAAAAAAAAA", "BBBBBBBBBBB", "CCCCCCCCCCC"]
+        assert curate.seen_video_ids(p) == {"AAAAAAAAAAA", "BBBBBBBBBBB", "CCCCCCCCCCC"}
+    finally:
+        curate.SEEN_LEDGER = old_ledger
+    shutil.rmtree(p)
+
+
 def test_week_watchlist():
     from src.weekly import week_watchlist
     d1 = ("## Headlines\n\nx\n\n## Today's Watchlist\n\n"

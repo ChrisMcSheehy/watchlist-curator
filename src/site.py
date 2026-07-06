@@ -111,6 +111,16 @@ def _issue_card(it):
 </article>"""
 
 
+def _hero_topics():
+    """From interests.yaml hero_topics; '<and>' renders as the accent ampersand word."""
+    try:
+        cfg = yaml.safe_load((ROOT / "config" / "interests.yaml").read_text())
+        raw = cfg.get("hero_topics") or "local LLMs, Snowflake <and> dbt"
+    except Exception:
+        raw = "local LLMs, Snowflake <and> dbt"
+    return html.escape(raw).replace("&lt;and&gt;", '<span class="amp">and</span>')
+
+
 def _index_html(issues):
     all_tags = sorted({t for it in issues for t in it["tags"]})
     pills = "".join(
@@ -120,7 +130,7 @@ def _index_html(issues):
     cards = "\n".join(_issue_card(it) for it in issues)
     content = f"""<main class="wrap">
   <section class="hero">
-    <h1>The daily brief on<br>local LLMs, Snowflake <span class="amp">and</span> dbt.</h1>
+    <h1>The daily brief on<br>{_hero_topics()}.</h1>
     <p class="hero-sub">Curated videos, headlines and repos. Published every morning, digested every Sunday.</p>
   </section>
   <section class="controls">

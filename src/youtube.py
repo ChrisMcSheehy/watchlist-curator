@@ -104,7 +104,9 @@ def get_or_create_playlist(yt, name):
         if pl["snippet"]["title"] == name:
             return pl["id"]
     body = {
-        "snippet": {"title": name, "description": "Created by watchlist curator"},
+        "snippet": {"title": name, "description":
+                    "Week of " + name + " — full writeups: "
+                    "https://chrismcsheehy.github.io/watchlist-curator/"},
         "status": {"privacyStatus": "private"},
     }
     return yt.playlists().insert(part="snippet,status", body=body).execute()["id"]

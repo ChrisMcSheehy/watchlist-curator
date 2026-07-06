@@ -42,6 +42,9 @@ def complete(role, prompt, system=None, timeout=1800, with_citations=False):
     )
     r.raise_for_status()
     data = r.json()
+    u = data.get("usage") or {}
+    print(f"[llm] {model_for(role)} prompt={u.get('prompt_tokens', '?')} "
+          f"completion={u.get('completion_tokens', '?')} tokens")
     content = data["choices"][0]["message"]["content"]
     if with_citations:
         urls = _citation_urls(data)

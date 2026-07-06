@@ -1,7 +1,16 @@
 feeds:
+  # general / LLM
   - https://hnrss.org/newest?q=LLM&points=50
   - https://hnrss.org/newest?q=dbt&points=30
   - https://hnrss.org/newest?q=Snowflake&points=30
   - https://www.reddit.com/r/LocalLLaMA/top/.rss?t=day
   - https://simonwillison.net/atom/everything/
+  # snowflake
   - https://www.snowflake.com/feed/
+  - https://medium.com/feed/snowflake            # Snowflake Builders engineering blog
+  - https://github.com/snowflakedb/snowflake-cli/releases.atom
+  - https://github.com/snowflakedb/snowpark-python/releases.atom
+  # dbt
+  - https://www.getdbt.com/blog/rss.xml
+  - https://roundup.getdbt.com/feed              # Analytics Engineering Roundup
+  - https://github.com/dbt-labs/dbt-core/releases.atom

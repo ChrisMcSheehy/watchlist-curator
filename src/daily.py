@@ -40,7 +40,9 @@ def main(dry_run=False):
         print(f"WARNING: YouTube fetch failed, publishing without videos: {e}")
     feed_items = sources.fetch_feeds()
     research_text = sources.research()
-    repos = sources.github_trending()
+    already = curate.seen_repos()
+    repos = [r for r in sources.github_trending()
+             if r["name"].lower() not in already]
 
     result = curate.curate_daily(videos, feed_items, research_text, repos, today)
 
@@ -58,6 +60,8 @@ def main(dry_run=False):
         # newsletter still publishes if playlist ops fail (spec: error handling)
         print(f"WARNING: playlist update failed: {e}")
 
+    # ledger survives same-day newsletter overwrites, so picks stay deduped
+    curate.remember_videos(v["id"] for v in result["playlist_videos"])
     path = write_newsletter(today, result["newsletter_markdown"],
                             summary=result.get("summary", ""),
                             tags=result.get("tags", []))

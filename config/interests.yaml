@@ -4,6 +4,8 @@ topics:
   - dbt (releases, modelling patterns, testing, performance)
   - LLM development (agents, APIs, evals, prompting, major provider news)
   - open weight llm (new models, model variants, comparisons to frontier models, reducing vram/memory requirements)
+# shown in the site hero: "The daily brief on <hero_topics>."
+hero_topics: local LLMs, Snowflake, dbt <and> the open-weight scene
 video_preferences: >
   For the daily playlist, strongly prefer broad news-roundup and compilation
   videos that cover many stories in one sitting (the AI Search / AI Revolution

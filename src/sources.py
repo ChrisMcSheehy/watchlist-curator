@@ -31,9 +31,11 @@ def fetch_feeds(hours=24):
     items = []
     for url in urls:
         try:
-            items += recent_entries(feedparser.parse(url), hours)
-        except Exception:
-            pass  # a dead feed never blocks the newsletter
+            got = recent_entries(feedparser.parse(url), hours)
+            items += got
+            print(f"feed {url}: {len(got)} items")  # dead-feed health check in run logs
+        except Exception as e:
+            print(f"feed {url}: FAILED ({e})")  # never blocks the newsletter
     return items
 
 
@@ -82,23 +84,29 @@ def deep_research(days=7, seen=""):
 
 
 def github_trending(days=7, per_keyword=5):
+    import os
     keywords = yaml.safe_load((CONFIG / "interests.yaml").read_text())["github_keywords"]
     since = (datetime.now(timezone.utc) - timedelta(days=days)).date().isoformat()
+    headers = {"Accept": "application/vnd.github+json"}
+    if os.environ.get("GITHUB_TOKEN"):  # 30 req/min authed vs 10 unauthed
+        headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
     repos = {}
     for kw in keywords:
-        r = requests.get(
-            "https://api.github.com/search/repositories",
-            params={"q": f"{kw} created:>{since}", "sort": "stars",
-                    "order": "desc", "per_page": per_keyword},
-            headers={"Accept": "application/vnd.github+json"},
-            timeout=30,
-        )
-        if r.ok:
-            for it in r.json().get("items", []):
-                repos[it["full_name"]] = {
-                    "name": it["full_name"],
-                    "url": it["html_url"],
-                    "stars": it["stargazers_count"],
-                    "description": it.get("description") or "",
-                }
+        # brand-new repos AND established repos with recent traction
+        for q in (f"{kw} created:>{since}",
+                  f"{kw} pushed:>{since} stars:>300"):
+            r = requests.get(
+                "https://api.github.com/search/repositories",
+                params={"q": q, "sort": "stars", "order": "desc",
+                        "per_page": per_keyword},
+                headers=headers, timeout=30,
+            )
+            if r.ok:
+                for it in r.json().get("items", []):
+                    repos[it["full_name"]] = {
+                        "name": it["full_name"],
+                        "url": it["html_url"],
+                        "stars": it["stargazers_count"],
+                        "description": it.get("description") or "",
+                    }
     return list(repos.values())

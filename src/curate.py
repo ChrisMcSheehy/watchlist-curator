@@ -19,15 +19,41 @@ def parse_llm_json(text):
     m = re.search(r"\{.*\}", text, re.DOTALL)
     if not m:
         raise ValueError(f"no JSON object in LLM output: {text[:200]}")
-    # strict=False: LLMs emit literal newlines inside the markdown string value
-    return json.loads(m.group(0), strict=False)
+    try:
+        # strict=False: LLMs emit literal newlines inside the markdown string value
+        return json.loads(m.group(0), strict=False)
+    except json.JSONDecodeError:
+        # the run already paid for this response; make it debuggable from logs
+        print(f"UNPARSEABLE LLM OUTPUT (first 2000 chars):\n{text[:2000]}")
+        raise
+
+
+SEEN_LEDGER = NEWSLETTERS / "seen_videos.txt"
+REPO_RE = re.compile(r"github\.com/([\w.-]+/[\w.-]+)")
 
 
 def seen_video_ids(folder=NEWSLETTERS):
     ids = set()
     for f in pathlib.Path(folder).glob("*.md"):
         ids |= set(VIDEO_ID_RE.findall(f.read_text(encoding="utf-8")))
+    # append-only ledger survives same-day newsletter overwrites
+    if SEEN_LEDGER.exists():
+        ids |= set(SEEN_LEDGER.read_text(encoding="utf-8").split())
     return ids
+
+
+def remember_videos(video_ids):
+    old = SEEN_LEDGER.read_text(encoding="utf-8").split() if SEEN_LEDGER.exists() else []
+    SEEN_LEDGER.write_text("\n".join(dict.fromkeys(old + list(video_ids))) + "\n",
+                           encoding="utf-8")
+
+
+def seen_repos(folder=NEWSLETTERS):
+    repos = set()
+    for f in pathlib.Path(folder).glob("*.md"):
+        repos |= {r.lower().removesuffix(".git")
+                  for r in REPO_RE.findall(f.read_text(encoding="utf-8"))}
+    return repos
 
 
 SYSTEM = (
