@@ -4,6 +4,12 @@ topics:
   - dbt (releases, modelling patterns, testing, performance)
   - LLM development (agents, APIs, evals, prompting, major provider news)
   - open weight llm (new models, model variants, comparisons to frontier models, reducing vram/memory requirements)
+video_preferences: >
+  For the daily playlist, strongly prefer broad news-roundup and compilation
+  videos that cover many stories in one sitting (the AI Search / AI Revolution
+  style: "this week in AI", model release roundups, tool compilations) over
+  narrow single-topic deep dives. Deep dives only make the playlist when they
+  are exceptional; otherwise dissect them in "Worth a Skim" instead.
 github_keywords:
   - local llm
   - llm agent

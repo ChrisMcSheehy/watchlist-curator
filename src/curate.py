@@ -59,7 +59,8 @@ NEW GITHUB REPOS (created recently, by stars):
 {json.dumps(repos, indent=1)}
 
 Return JSON with exactly these keys:
-- "playlist_videos": the 2-3 best videos for me to WATCH today. Hard constraint:
+- "playlist_videos": the 2-3 best videos for me to WATCH today, honouring the
+  'video_preferences' in my interests above. Hard constraint:
   total minutes <= 60. Each: {{"id", "title", "minutes", "why"}} ('why' = one sentence).
   Fewer or zero picks is fine on a thin day — never pad with mediocre videos.
 - "summary": one plain sentence (max 25 words) capturing today's most notable story,
