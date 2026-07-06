@@ -63,6 +63,28 @@
     }
   }
 
+  // ---- article: reading progress bar (fraction of the article scrolled past) ----
+  var article = document.querySelector(".prose");
+  if (article) {
+    var bar = document.createElement("div");
+    bar.className = "read-progress";
+    document.body.appendChild(bar);
+    var ticking = false;
+    function updateProgress() {
+      ticking = false;
+      var start = article.offsetTop;
+      var end = start + article.offsetHeight - window.innerHeight;
+      var p = end > start ? (window.scrollY - start) / (end - start) : 1;
+      bar.style.width = Math.max(0, Math.min(1, p)) * 100 + "%";
+    }
+    function onScroll() {
+      if (!ticking) { ticking = true; requestAnimationFrame(updateProgress); }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    updateProgress();
+  }
+
   // ---- article: scrollspy for the table of contents ----
   var toc = document.getElementById("toc");
   if (toc && "IntersectionObserver" in window) {

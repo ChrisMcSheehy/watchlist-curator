@@ -137,6 +137,16 @@ def test_collapsible_watchlist():
     assert '<h2 id="repo-watchlist">' in out  # repo section untouched
 
 
+def test_style_citations():
+    from src.site import _style_citations
+    # consecutive [1][12] cites must render as separate bracketed superscripts
+    out = _style_citations('layers.<a href="http://a/x">1</a><a href="http://b/y">12</a>')
+    assert out == ('layers.<sup class="cite"><a href="http://a/x">1</a></sup>'
+                   '<sup class="cite"><a href="http://b/y">12</a></sup>')
+    # links with non-numeric text (e.g. video titles) are left alone
+    assert _style_citations('<a href="http://v">Watch this</a>') == '<a href="http://v">Watch this</a>'
+
+
 def test_seen_repos(tmp_dir="tests/_tmp_repos"):
     import shutil
     from src.curate import seen_repos

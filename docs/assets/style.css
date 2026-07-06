@@ -273,18 +273,58 @@ a { color: inherit; }
   margin: 0.9rem 0 1.6rem;
 }
 
+/* h2 = major section: terracotta chapter break, used sparingly so the colour
+   marks the big divisions rather than shouting everywhere */
 .prose h2 {
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 800;
   letter-spacing: -0.02em;
-  margin: 3rem 0 1rem;
-  padding-top: 1.6rem;
-  border-top: 1px solid var(--hairline);
+  color: var(--accent);
+  margin: 4rem 0 1.1rem;
+  padding-top: 1.8rem;
+  border-top: 2px solid var(--hairline);
 }
 
-.prose h3, .prose h4 { font-weight: 700; margin: 2rem 0 0.6rem; }
+/* h3 = topic: charcoal text kept readable, anchored by an accent tick */
+.prose h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 2.8rem 0 0.8rem;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--accent);
+}
+
+/* h4 = sub-topic eyebrow: small accent label */
+.prose h4 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  margin: 2rem 0 0.5rem;
+}
 
 .prose p, .prose li { color: color-mix(in srgb, var(--ink) 88%, var(--ink-soft)); }
+.prose p { margin: 0 0 1.15rem; }
+
+/* reading progress bar: fixed sliver at the top, fills as you scroll the article */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--accent);
+  z-index: 100;
+  will-change: width;
+}
+
+/* bracketed superscript citations: [1] [12] read as distinct, not "112" */
+.prose .cite { font-size: 0.7em; line-height: 0; margin-left: 0.2em; white-space: nowrap; }
+.prose .cite::before { content: "["; color: var(--ink-soft); }
+.prose .cite::after { content: "]"; color: var(--ink-soft); }
+.prose .cite a { text-decoration: none; }
 
 .prose a {
   color: var(--accent);

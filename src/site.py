@@ -177,9 +177,19 @@ def _collapsible_watchlists(body_html):
         body_html)
 
 
+# citation links are the only anchors whose text is a bare number; wrap them as
+# bracketed superscripts so runs like [1][12] read as separate cites, not "112".
+# ponytail: pure-digit anchor text == citation; revisit if a real numeric-titled link appears.
+CITE_RE = re.compile(r'<a href="([^"]*)">(\d+)</a>')
+
+
+def _style_citations(body_html):
+    return CITE_RE.sub(r'<sup class="cite"><a href="\1">\2</a></sup>', body_html)
+
+
 def _issue_html(it, prev_it, next_it):
-    body_html = _collapsible_watchlists(
-        markdown.markdown(it["body"], extensions=["extra", "toc"]))
+    body_html = _style_citations(_collapsible_watchlists(
+        markdown.markdown(it["body"], extensions=["extra", "toc"])))
     nav = ""
     if prev_it:
         nav += f'<a class="pager-link" href="{prev_it["slug"]}.html"><span class="mono dim">Older</span><span>{html.escape(prev_it["title"])}</span></a>'

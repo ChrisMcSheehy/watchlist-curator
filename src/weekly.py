@@ -54,12 +54,16 @@ def main(dry_run=False):
 
     digest = llm.complete(
         "curation",
-        "Synthesize these daily briefings into one weekly digest (20-30 min read). "
+        "Synthesize these daily briefings into one weekly digest. HARD LIMIT: a "
+        "25-30 minute read (max ~6500 words total) — be selective, not exhaustive. "
         "Markdown. Sections: '## The Week in Brief' (narrative summary), "
         "'## Breaking News Recap' (only if any daily had breaking news), "
-        "'## Deep Dive' (the CENTREPIECE — a thorough long-form read built from the "
-        "DEEP RESEARCH section below, keeping all its detail and citations, "
-        "organised by topic area; omit only if empty), "
+        "'## Deep Dive' (the CENTREPIECE — a focused long-form read built from the "
+        "DEEP RESEARCH section below, organised by topic area with '### Topic' "
+        "headings and short '#### Sub-topic' labels; cover the most important "
+        "developments in depth and summarise or drop the minor ones rather than "
+        "reproducing every detail; keep citations for what you keep; omit only if "
+        "empty), "
         "'## Repo Roundup'. Do NOT include a videos/watchlist section; it is added "
         "separately. The deep research uses numbered markers like [3] that map "
         "to the 'Sources:' list at the end of that section — render each marker you "
