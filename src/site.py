@@ -68,7 +68,7 @@ def _page(title, content, depth=0, extra_head=""):
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="{p}assets/rafiki.png">
 <link rel="stylesheet" href="{p}assets/style.css">
-<link rel="alternate" type="application/rss+xml" title="Watchlist Curator" href="{p}feed.xml">
+<link rel="alternate" type="application/rss+xml" title="The Daily Signal" href="{p}feed.xml">
 <script>
 try {{ document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"; }} catch (e) {{}}
 </script>
@@ -76,7 +76,7 @@ try {{ document.documentElement.dataset.theme = localStorage.getItem("theme") ||
 </head>
 <body>
 <header class="site-head">
-  <a class="brand" href="{p}index.html">Watchlist<span class="brand-accent">.</span></a>
+  <a class="brand" href="{p}index.html">Signal<span class="brand-accent">.</span></a>
   <nav class="head-nav">
     <a href="https://www.youtube.com/@Rhafiki_curation/playlists" class="head-link">Playlists</a>
     <a href="{p}feed.xml" class="head-link">RSS</a>
@@ -143,7 +143,7 @@ def _index_html(issues):
   </section>
   <p id="no-results" class="no-results" hidden>Nothing matches that search.</p>
 </main>"""
-    return _page("Watchlist Curator", content)
+    return _page("The Daily Signal", content)
 
 
 def _toc_html(headings):
@@ -225,7 +225,7 @@ def _feed_xml(issues):
     return (
         '<?xml version="1.0" encoding="UTF-8"?>'
         '<rss version="2.0"><channel>'
-        "<title>Watchlist Curator</title>"
+        "<title>The Daily Signal</title>"
         f"<link>{BASE_URL}/</link>"
         "<description>Daily brief on local LLMs, Snowflake and dbt.</description>"
         + "".join(entries)

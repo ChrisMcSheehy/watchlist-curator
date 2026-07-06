@@ -18,7 +18,7 @@ def write_newsletter(today, markdown, kind="Daily", summary="", tags=None):
     suffix = "" if kind == "Daily" else "-weekly"
     path = DOCS / "newsletters" / f"{today.isoformat()}{suffix}.md"
     front = yaml.safe_dump(
-        {"title": f"{kind} Watchlist — {today.isoformat()}",
+        {"title": f"{kind} Signal — {today.isoformat()}",
          "summary": summary, "tags": tags or []},
         allow_unicode=True, sort_keys=False)
     path.write_text(f"---\n{front}---\n\n" + markdown + "\n", encoding="utf-8")
