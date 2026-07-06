@@ -48,6 +48,8 @@ def test_parse_llm_json():
     fenced = 'Here you go:\n```json\n{"a": [1, 2]}\n```'
     assert parse_llm_json(fenced) == {"a": [1, 2]}
     assert parse_llm_json('{"b": 1}') == {"b": 1}
+    # LLMs emit literal newlines inside markdown string values (json is strict by default)
+    assert parse_llm_json('{"md": "line1\nline2"}') == {"md": "line1\nline2"}
 
 
 def test_seen_video_ids(tmp_dir="tests/_tmp_newsletters"):

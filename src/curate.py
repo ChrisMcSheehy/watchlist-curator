@@ -19,7 +19,8 @@ def parse_llm_json(text):
     m = re.search(r"\{.*\}", text, re.DOTALL)
     if not m:
         raise ValueError(f"no JSON object in LLM output: {text[:200]}")
-    return json.loads(m.group(0))
+    # strict=False: LLMs emit literal newlines inside the markdown string value
+    return json.loads(m.group(0), strict=False)
 
 
 def seen_video_ids(folder=NEWSLETTERS):
