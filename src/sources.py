@@ -45,6 +45,9 @@ def research(hours=24):
         f"What notable news happened in the last {span} in these areas: "
         + "; ".join(topics)
         + "? Report only genuinely notable items. Include a source URL for every claim. "
+        "Prefer PRIMARY sources: official blogs, release notes, papers, and repos. If a "
+        "story is circulating via Reddit or social media, find and cite the underlying "
+        "primary source alongside it. "
         "Flag anything that qualifies as major breaking news (model launches/retirements, "
         "major product releases, acquisitions).",
         with_citations=True,
@@ -71,7 +74,9 @@ def deep_research(days=7, seen=""):
         + f". Deep dive into the last {days} days: new features, releases, "
         "deprecations, pricing/performance changes, roadmap signals, and notable "
         "engineering practices or write-ups. Be thorough and technical. Include a "
-        "source URL for every claim." + context,
+        "source URL for every claim, preferring PRIMARY sources (official blogs, "
+        "release notes, papers, repos) over Reddit/social aggregators; when a story "
+        "originates on social media, cite the underlying primary source too." + context,
         with_citations=True,
     )
 

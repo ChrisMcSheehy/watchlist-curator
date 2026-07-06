@@ -85,7 +85,11 @@ Return JSON with exactly these keys:
      takeaways with links, so I get the substance without the watch time.
   5. "## Repo Watchlist" — the most interesting new repos, 1-2 sentences each on
      why it's cool and what I'd use it for, with links.
-Every factual claim needs a linked source. If the DEEP RESEARCH REPORT uses numbered
+Every factual claim needs a linked source. When both a Reddit/social link and a
+primary source (official blog, release notes, paper, repo) exist in the material for
+the same story, cite the primary source first and the discussion link second; never
+cite only Reddit when a primary source is available. Flag rumour/leak-tier items as
+unverified. If the DEEP RESEARCH REPORT uses numbered
 markers like [3] that map to its trailing 'Sources:' list, render them as inline markdown
 links to the URL (e.g. ([3](https://...))) — never leave a bare [n]. Do not invent items
 not present in the material above."""
