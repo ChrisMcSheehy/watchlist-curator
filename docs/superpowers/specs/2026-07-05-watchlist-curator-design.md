@@ -33,7 +33,7 @@ src/daily.py               # daily entrypoint (supports --dry-run)
 src/weekly.py              # weekly entrypoint (supports --dry-run)
 scripts/setup_auth.py      # one-time Google OAuth consent flow → refresh token
 scripts/curate_channels.py # one-time: pull all subscriptions → Claude classifies → channels.yaml
-site/                      # newsletters as dated markdown, served by GitHub Pages
+docs/newsletters/          # dated markdown, served by GitHub Pages (classic Pages serves /docs)
 .github/workflows/daily.yml
 .github/workflows/weekly.yml
 ```
@@ -51,12 +51,12 @@ site/                      # newsletters as dated markdown, served by GitHub Pag
    - `newsletter`: sections — Breaking News (omitted unless warranted), Headlines, Video Dissections, Repo Watchlist ("why it's cool"), all with citation links. Target read: 20-30 min max for weekly, shorter daily.
 7. Add `playlist_videos` to the current week's playlist.
 8. Delete playlists older than 30 days (age parsed from playlist name).
-9. Commit `site/newsletters/YYYY-MM-DD.md`; Pages publishes.
+9. Commit `docs/newsletters/YYYY-MM-DD.md`; Pages publishes.
 
 ## Weekly run (Sunday, before daily)
 
 1. Create the week's playlist, named as the Sunday start date `DD-MM-YYYY` (e.g. `05-07-2026`).
-2. Write a weekly digest edition synthesizing the past week's daily newsletters (read from `site/newsletters/`).
+2. Write a weekly digest edition synthesizing the past week's daily newsletters (read from `docs/newsletters/`).
 
 ## Breaking news
 

@@ -1,0 +1,7 @@
+feeds:
+  - https://hnrss.org/newest?q=LLM&points=50
+  - https://hnrss.org/newest?q=dbt&points=30
+  - https://hnrss.org/newest?q=Snowflake&points=30
+  - https://www.reddit.com/r/LocalLLaMA/top/.rss?t=day
+  - https://simonwillison.net/atom/everything/
+  - https://www.snowflake.com/feed/
