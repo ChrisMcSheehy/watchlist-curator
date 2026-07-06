@@ -155,6 +155,7 @@ def _toc_html(headings):
     return f"""<aside class="toc" id="toc">
   <div class="toc-label">On this page</div>
   <ul>{items}</ul>
+  <div class="toc-read" id="toc-read" hidden><span id="toc-read-pct">0</span>% read</div>
 </aside>"""
 
 

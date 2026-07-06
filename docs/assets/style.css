@@ -446,6 +446,19 @@ a { color: inherit; }
 
 .toc a.active { color: var(--accent); font-weight: 700; }
 
+.toc-read {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--hairline);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.toc-read span { color: var(--accent); }
+
 /* ---------- pager / footer ---------- */
 
 .pager {

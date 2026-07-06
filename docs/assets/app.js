@@ -69,13 +69,18 @@
     var bar = document.createElement("div");
     bar.className = "read-progress";
     document.body.appendChild(bar);
+    var readout = document.getElementById("toc-read");
+    var readoutPct = document.getElementById("toc-read-pct");
+    if (readout) readout.hidden = false;  // only shown once JS is driving it
     var ticking = false;
     function updateProgress() {
       ticking = false;
       var start = article.offsetTop;
       var end = start + article.offsetHeight - window.innerHeight;
       var p = end > start ? (window.scrollY - start) / (end - start) : 1;
-      bar.style.width = Math.max(0, Math.min(1, p)) * 100 + "%";
+      p = Math.max(0, Math.min(1, p));
+      bar.style.width = p * 100 + "%";
+      if (readoutPct) readoutPct.textContent = Math.round(p * 100);
     }
     function onScroll() {
       if (!ticking) { ticking = true; requestAnimationFrame(updateProgress); }
