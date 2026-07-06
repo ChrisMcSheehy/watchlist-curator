@@ -1,3 +1,4 @@
 # OpenRouter model IDs. Swap freely as cheaper/better models appear.
-research: perplexity/sonar-deep-research
-curation: anthropic/claude-sonnet-5
+research: deepseek/deepseek-v4-pro          # daily research + curation (cheap)
+curation: deepseek/deepseek-v4-pro
+deep_research: perplexity/sonar-deep-research  # weekly Snowflake/dbt deep dive (~$2/run)

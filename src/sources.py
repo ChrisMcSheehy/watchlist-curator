@@ -50,6 +50,17 @@ def research(hours=24):
     )
 
 
+def deep_research(days=7):
+    """Weekly deep dive on Snowflake/dbt (deep_research role, e.g. Perplexity Sonar)."""
+    return llm.complete(
+        "deep_research",
+        f"Deep dive into the last {days} days in Snowflake and dbt: new features, "
+        "releases, deprecations, pricing/perf changes, and notable engineering "
+        "practices or write-ups. Be thorough and technical. Include a source URL "
+        "for every claim.",
+    )
+
+
 def github_trending(days=7, per_keyword=5):
     keywords = yaml.safe_load((CONFIG / "interests.yaml").read_text())["github_keywords"]
     since = (datetime.now(timezone.utc) - timedelta(days=days)).date().isoformat()

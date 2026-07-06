@@ -24,8 +24,9 @@ def test_parse_duration():
 
 def test_model_for():
     from src.llm import model_for
-    assert model_for("research") == "perplexity/sonar-deep-research"
+    assert "/" in model_for("research")
     assert "/" in model_for("curation")
+    assert "/" in model_for("deep_research")
 
 
 def test_recent_entries():

@@ -1,7 +1,7 @@
 import argparse
 from datetime import date, timedelta
 
-from . import llm, youtube
+from . import llm, sources, youtube
 from .daily import DOCS, write_newsletter
 
 
@@ -17,6 +17,12 @@ def past_week_dailies(today):
 def main(dry_run=False):
     today = date.today()
 
+    try:
+        deep_dive = sources.deep_research()
+    except Exception as e:
+        print(f"WARNING: weekly deep research failed: {e}")
+        deep_dive = ""
+
     dailies = past_week_dailies(today)
     digest = llm.complete(
         "curation",
@@ -24,11 +30,14 @@ def main(dry_run=False):
         "Markdown. Sections: '## The Week in Brief' (narrative summary), "
         "'## Breaking News Recap' (only if any daily had breaking news), "
         "'## Best of the Watchlist' (standout videos of the week with links), "
-        "'## Repo Roundup'. Keep every citation link from the dailies that you reference. "
-        "Do not invent anything not present in the dailies.\n\n---\n\n"
+        "'## Snowflake & dbt Deep Dive' (from the DEEP RESEARCH section below; omit if empty), "
+        "'## Repo Roundup'. Keep every citation link from the dailies and deep research "
+        "that you reference. Do not invent anything not present in the material.\n\n"
+        f"DEEP RESEARCH (Snowflake/dbt, this week):\n{deep_dive}\n\n"
+        "DAILY BRIEFINGS:\n---\n\n"
         + "\n\n=====\n\n".join(dailies),
         system="You are a personal news curator writing a weekly digest. Respond with markdown only.",
-    ) if dailies else "No daily briefings were published this week."
+    ) if (dailies or deep_dive) else "No daily briefings were published this week."
 
     if dry_run:
         print(digest)
