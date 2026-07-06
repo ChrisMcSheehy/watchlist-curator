@@ -7,7 +7,10 @@ feeds:
   - https://simonwillison.net/atom/everything/
   # snowflake
   - https://www.snowflake.com/feed/
-  - https://medium.com/feed/snowflake            # Snowflake Builders engineering blog
+  - https://medium.com/feed/snowflake                     # Snowflake Builders engineering blog
+  - https://www.snowflake.com/en/resources/publications/  # Snowflake papers
+  - https://www.snowflake.com/en/blog/                    # Snowflake Blog
+  - https://www.getdbt.com/blog                           # dbt blog
   - https://github.com/snowflakedb/snowflake-cli/releases.atom
   - https://github.com/snowflakedb/snowpark-python/releases.atom
   # dbt

@@ -15,7 +15,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 NEWSLETTERS = DOCS / "newsletters"
-BASE_URL = "https://chrismcsheehy.github.io/watchlist-curator"
+BASE_URL = "https://chrismcsheehy.github.io/signal"
 
 FRONT_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 H2_RE = re.compile(r"^## +(.+?)\s*$", re.MULTILINE)
