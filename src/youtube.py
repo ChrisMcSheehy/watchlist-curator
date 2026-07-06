@@ -94,6 +94,7 @@ def captions(video_id, max_chars=12000):
 
 
 def _my_playlists(yt):
+    # ponytail: first page only (50 playlists); paginate if the account ever exceeds that
     return yt.playlists().list(part="id,snippet", mine=True, maxResults=50).execute().get("items", [])
 
 
