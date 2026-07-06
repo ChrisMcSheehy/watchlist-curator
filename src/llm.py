@@ -38,13 +38,16 @@ def complete(role, prompt, system=None, timeout=1800, with_citations=False):
         URL,
         timeout=timeout,
         headers={"Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}"},
-        json={"model": model_for(role), "messages": messages},
+        json={"model": model_for(role), "messages": messages,
+              "usage": {"include": True}},  # OpenRouter returns actual cost
     )
     r.raise_for_status()
     data = r.json()
     u = data.get("usage") or {}
+    cost = u.get("cost")
     print(f"[llm] {model_for(role)} prompt={u.get('prompt_tokens', '?')} "
-          f"completion={u.get('completion_tokens', '?')} tokens")
+          f"completion={u.get('completion_tokens', '?')} tokens"
+          + (f" cost=${cost:.4f}" if isinstance(cost, (int, float)) else ""))
     content = data["choices"][0]["message"]["content"]
     if with_citations:
         urls = _citation_urls(data)
