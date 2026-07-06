@@ -15,7 +15,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 NEWSLETTERS = DOCS / "newsletters"
-BASE_URL = "https://chrismcsheehy.github.io/signal"
+BASE_URL = "https://ai-burst.github.io"
 
 FRONT_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 H2_RE = re.compile(r"^## +(.+?)\s*$", re.MULTILINE)
@@ -88,7 +88,7 @@ try {{ document.documentElement.dataset.theme = localStorage.getItem("theme") ||
 {content}
 <footer class="site-foot">
   <span>Curated daily by the watchlist pipeline.</span>
-  <a href="https://github.com/ChrisMcSheehy/watchlist-curator">Source</a>
+  <a href="https://github.com/ai-burst/ai-burst.github.io">Source</a>
 </footer>
 <script src="{p}assets/app.js"></script>
 </body>

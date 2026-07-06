@@ -7,9 +7,9 @@ trending, and a live web-search sweep — and publishes **The Daily Signal**: a
 with citations, video dissections, and classified repo picks. Sundays it adds a
 long-form weekly digest with a Perplexity deep-research centrepiece.
 
-- **Read it:** https://chrismcsheehy.github.io/signal/
+- **Read it:** https://ai-burst.github.io/
 - **Watch it:** https://www.youtube.com/@Data-Signal/playlists (weekly playlists, 30-day retention)
-- **Subscribe:** https://chrismcsheehy.github.io/signal/feed.xml
+- **Subscribe:** https://ai-burst.github.io/feed.xml
 
 ## How it works
 
