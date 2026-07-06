@@ -66,6 +66,7 @@ def _page(title, content, depth=0, extra_head=""):
 <title>{html.escape(title)}</title>
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="{p}assets/rafiki.png">
 <link rel="stylesheet" href="{p}assets/style.css">
 <link rel="alternate" type="application/rss+xml" title="Watchlist Curator" href="{p}feed.xml">
 <script>
