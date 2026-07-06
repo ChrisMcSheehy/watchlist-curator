@@ -29,6 +29,18 @@ def test_model_for():
     assert "/" in model_for("deep_research")
 
 
+def test_citation_urls():
+    from src.llm import _citation_urls
+    top = {"citations": ["http://a", "http://b"],
+           "choices": [{"message": {"content": "x"}}]}
+    assert _citation_urls(top) == ["http://a", "http://b"]
+    annotated = {"choices": [{"message": {"content": "x", "annotations": [
+        {"url_citation": {"url": "http://c"}}, {"type": "other"}]}}]}
+    assert _citation_urls(annotated) == ["http://c"]
+    none = {"choices": [{"message": {"content": "x"}}]}
+    assert _citation_urls(none) == []
+
+
 def test_recent_entries():
     import time
     from types import SimpleNamespace

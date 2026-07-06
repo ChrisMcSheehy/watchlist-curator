@@ -33,8 +33,11 @@ def main(dry_run=False):
         "'## Deep Dive' (the CENTREPIECE — a thorough long-form read built from the "
         "DEEP RESEARCH section below, keeping all its detail and citations, "
         "organised by topic area; omit only if empty), "
-        "'## Repo Roundup'. Keep every citation link from the dailies and deep research "
-        "that you reference. Do not invent anything not present in the material.\n\n"
+        "'## Repo Roundup'. The deep research uses numbered markers like [3] that map "
+        "to the 'Sources:' list at the end of that section — render each marker you "
+        "keep as an inline markdown link to its URL, e.g. ([3](https://...)); never "
+        "leave a bare [n]. Keep every citation from the dailies too. Do not invent "
+        "anything not present in the material.\n\n"
         f"DEEP RESEARCH (this week, across all my interests):\n{deep_dive}\n\n"
         "DAILY BRIEFINGS:\n---\n\n"
         + "\n\n=====\n\n".join(dailies),

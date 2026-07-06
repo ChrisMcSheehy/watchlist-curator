@@ -76,5 +76,8 @@ Return JSON with exactly these keys:
      Skip videos that are off-topic entirely.
   5. "## Repo Watchlist" — the most interesting new repos, one line each on why
      it's cool, with links.
-Every factual claim needs a linked source. Do not invent items not present in the material above."""
+Every factual claim needs a linked source. If the DEEP RESEARCH REPORT uses numbered
+markers like [3] that map to its trailing 'Sources:' list, render them as inline markdown
+links to the URL (e.g. ([3](https://...))) — never leave a bare [n]. Do not invent items
+not present in the material above."""
     return parse_llm_json(llm.complete("curation", prompt, system=SYSTEM))

@@ -47,6 +47,7 @@ def research(hours=24):
         + "? Report only genuinely notable items. Include a source URL for every claim. "
         "Flag anything that qualifies as major breaking news (model launches/retirements, "
         "major product releases, acquisitions).",
+        with_citations=True,
     )
 
 
@@ -71,6 +72,7 @@ def deep_research(days=7, seen=""):
         "deprecations, pricing/performance changes, roadmap signals, and notable "
         "engineering practices or write-ups. Be thorough and technical. Include a "
         "source URL for every claim." + context,
+        with_citations=True,
     )
 
 
