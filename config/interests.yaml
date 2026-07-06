@@ -3,8 +3,10 @@ topics:
   - Snowflake (new features, performance, cost optimisation)
   - dbt (releases, modelling patterns, testing, performance)
   - LLM development (agents, APIs, evals, prompting, major provider news)
+  - open weight llm (new models, model variants, comparisons to frontier models, reducing vram/memory requirements)
 github_keywords:
   - local llm
   - llm agent
   - dbt
   - snowflake
+  - data observability
