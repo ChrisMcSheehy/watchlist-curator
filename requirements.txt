@@ -1,6 +1,7 @@
 requests
 pyyaml
 feedparser
+markdown
 google-api-python-client
 google-auth
 google-auth-oauthlib

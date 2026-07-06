@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Watchlist — 2026-07-06</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="alternate" type="application/rss+xml" title="Watchlist Curator" href="../feed.xml">
+<script>
+try { document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"; } catch (e) {}
+</script>
+
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html">Watchlist<span class="brand-accent">.</span></a>
+  <nav class="head-nav">
+    <a href="../feed.xml" class="head-link">RSS</a>
+    <button id="theme-toggle" class="toggle" type="button" aria-label="Switch theme">
+      <span class="toggle-light">Light</span><span class="toggle-dark">Dark</span>
+    </button>
+  </nav>
+</header>
+<main class="wrap article-wrap">
+  <div class="article-grid">
+    <article class="prose">
+      <p class="crumbs"><a href="../index.html">All issues</a></p>
+      <div class="issue-meta">
+        <span class="mono">06 Jul 2026</span>
+        <span class="badge badge-daily">daily</span><span class="badge badge-breaking">Breaking news</span>
+        <span class="mono dim">3 min read</span>
+      </div>
+      <h1>Daily Watchlist — 2026-07-06</h1>
+      <h2 id="breaking-news">Breaking News</h2>
+<p><strong>Anthropic’s Claude Fable 5 trust crisis</strong> – Anthropic shipped what many called the best AI model ever, then banned it 76 hours later, brought it back in a heavily restricted form, and eventually pulled it from subscriptions entirely. The developer community is reeling from the loss of trust in a previously beloved lab. (<a href="https://www.youtube.com/watch?v=BI6r2tkWhPM">Devsplainers video</a>)</p>
+<p><strong>How to make the most of it:</strong>
+- If you’re still using Claude Code or API, lock in your current version and avoid auto-updates until the dust settles.
+- Evaluate alternatives like the newly leaked Gemini 3.5 Pro or open-weight models (e.g., Tencent Hy3, GigaChat3.5) that are now offering competitive reasoning at a fraction of the cost.
+- Monitor Anthropic’s official communications and community forums for a permanent resolution; the current situation is fluid.</p>
+<h2 id="headlines">Headlines</h2>
+<ul>
+<li><strong>Tencent Hy3 released</strong> – A new open-weight mixture-of-experts model (295B total, 21B active) under Apache 2.0. Early benchmarks place it among the best open models, with strong performance on reasoning and coding. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uoozt4/new_open_model_from_tencent_hy_hy3_295b_total_21b/">Reddit r/LocalLLaMA</a>)</li>
+<li><strong>GigaChat3.5-432B-A28B lands with day-0 GGUF</strong> – Sberbank’s latest MoE model arrives with pre-quantized GGUF files, making it immediately usable in llama.cpp/Ollama/vLLM. The 28B active parameter configuration makes it viable for high-end consumer hardware. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uotkm7/new_model_gigachat35432ba28b_with_day0_gguf/">Reddit</a>)</li>
+<li><strong>llama.cpp gets a 64% prefill boost from Claude Fable 5</strong> – A developer used Anthropic’s new model to identify and patch a PCIe transfer bottleneck in llama.cpp. The result: prefill speed doubled on a 35B MoE model running on a single 12GB RTX 3060. The patches are public and being reviewed for upstream. (<a href="https://www.youtube.com/watch?v=VytSYCDhWQ0">Codacus video</a>)</li>
+<li><strong>llama-server KV cache fix saves state</strong> – A user discovered that llama-server restores the full KV cache from disk on startup but then discards it, wasting prefill work. The GitHub issue and a workaround are now available. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uohsov/llamaserver_is_throwing_away_your_perfectly_good/">Reddit</a>)</li>
+<li><strong>AMD HIP builds get -ffast-math</strong> – A pull request to llama.cpp enables fast math optimizations for ROCm/HIP, potentially improving AMD GPU inference speeds. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uoqdxj/ggmlhip_enable_ffastmath_for_hip_builds_by_ahuk/">Reddit</a>)</li>
+<li><strong>Qualcomm GenieX brings local LLMs to Windows laptops</strong> – The new SDK allows running Gemma 4 26B at 20 tok/s (GPU) and Qwen 3.6 27B at 10 tok/s on Snapdragon X chips, complete with llama.cpp support. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uo9z3c/qualcomm_launches_geniex_to_run_llms_on_their/">Reddit</a>)</li>
+<li><strong>Supra-Router-51M orchestrates agent prompts</strong> – A tiny 51M parameter model that routes prompts to the most appropriate downstream LLM or agent, enabling efficient multi-model setups. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uo826q/release_suprarouter51m_a_tiny_prompt_routing/">Reddit</a>)</li>
+<li><strong>Qwen 3.6 27B performance on VLLM</strong> – BF16, FP8, and NVFP4 benchmarks show FP8 as the sweet spot for agentic workloads, while NVFP4 offers blazing speed but with occasional looping issues. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uo32yw/qwen_36_27b_vllm_performance_benchmark_results/">Reddit</a>)</li>
+<li><strong>DeepSeek V4 Flash cost mystery</strong> – Users are questioning how the 284B-parameter DeepSeek V4 Flash is served by OpenRouter at prices lower than a 27B dense model, speculating about aggressive dumping or extremely efficient serving. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uoq1wi/is_deepseek_v4_flash_really_extremely_cheap_to/">Reddit</a>) Meanwhile, a Mac Studio user achieved 1.6× prefill and 3× decode speedups on the 8-bit MLX version with the help of Codex. (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uogebv/i_asked_codex_to_optimize_deepseek_v4_flash_8bit/">Reddit</a>)</li>
+</ul>
+<h2 id="todays-watchlist">Today's Watchlist</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=VytSYCDhWQ0">I Asked Claude Fable 5 to Improve llama.cpp.. and It Did</a> – ~64% faster prefill on a consumer GPU, no new hardware required.</li>
+<li><a href="https://www.youtube.com/watch?v=BI6r2tkWhPM">We Need to Talk About Anthropic...</a> – How the most developer-loved AI lab burned its trust in one month.</li>
+<li><a href="https://www.youtube.com/watch?v=z_dWiAuxn0M">Gemini 3.5 Pro Leaks! GOOGLE IS BACK</a> – Leaked details on Google’s strongest model yet, built to rival Fable 5 and GPT-5.6.</li>
+</ul>
+<h2 id="repo-watchlist">Repo Watchlist</h2>
+<ul>
+<li><a href="https://github.com/HUANGCHIHHUNGLeo/claude-real-video">claude-real-video</a> – Let any LLM actually watch a video by extracting scene-aware, deduplicated frames + transcript. Local, MIT.</li>
+<li><a href="https://github.com/jamesob/local-llm">local-llm</a> – A comprehensive, living guide to running LLMs locally, from hardware to quantisation.</li>
+<li><a href="https://github.com/ai4s-research/open-science">open-science</a> – Local-first, model-agnostic AI workbench for scientists (macOS/Windows), built on Tauri + MCP.</li>
+<li><a href="https://github.com/easylink-ai-open/agent-runtime">agent-runtime</a> – Standalone agent runtime core with neutral LLM types, provider clients, and tool loop.</li>
+<li><a href="https://github.com/curious-bigcat/cortex-code-mlops-demo">cortex-code-mlops-demo</a> – End-to-end Snowflake Cortex Code MLOps demo with fraud detection, model registry, and drift monitoring.</li>
+<li><a href="https://github.com/velunatsf/snowflake-ai-finops">snowflake-ai-finops</a> – Hands-on FinOps training for managing Snowflake Cortex AI costs with budgets, attribution, and dashboards.</li>
+<li><a href="https://github.com/Knusperftw/SARVault">SARVault</a> – Reproducible dbt-based bioactivity warehouse on Snowflake/DuckDB with medallion architecture and RDKit structural analysis.</li>
+<li><a href="https://github.com/syphon1c/promptsense_ai">promptsense_ai</a> – Lightweight agent that captures endpoint AI traffic, classifies it, catches data leaks, and provides observability.</li>
+</ul>
+      <nav class="pager"><span></span><a class="pager-link pager-next" href="2026-07-06-weekly.html"><span class="mono dim">Newer</span><span>Weekly Watchlist — 2026-07-06</span></a></nav>
+    </article>
+    <aside class="toc" id="toc">
+  <div class="toc-label">On this page</div>
+  <ul><li><a href="#breaking-news">Breaking News</a></li><li><a href="#headlines">Headlines</a></li><li><a href="#todays-watchlist">Today&#x27;s Watchlist</a></li><li><a href="#repo-watchlist">Repo Watchlist</a></li></ul>
+</aside>
+  </div>
+</main>
+<footer class="site-foot">
+  <span>Curated daily by the watchlist pipeline.</span>
+  <a href="https://github.com/ChrisMcSheehy/watchlist-curator">Source</a>
+</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

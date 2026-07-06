@@ -62,6 +62,10 @@ Return JSON with exactly these keys:
 - "playlist_videos": the 2-3 best videos for me to WATCH today. Hard constraint:
   total minutes <= 60. Each: {{"id", "title", "minutes", "why"}} ('why' = one sentence).
   Fewer or zero picks is fine on a thin day — never pad with mediocre videos.
+- "summary": one plain sentence (max 25 words) capturing today's most notable story,
+  for the newsletter index page.
+- "tags": 3-6 lowercase kebab-case topic tags for this issue, drawn from themes like
+  local-llm, snowflake, dbt, llm-dev, breaking-news, hardware, agents, quantization.
 - "newsletter_markdown": a newspaper-style daily briefing in markdown (5-10 min read).
   Sections, in order, omitting any that are empty:
   1. "## Breaking News" — ONLY if the material contains a genuinely major event

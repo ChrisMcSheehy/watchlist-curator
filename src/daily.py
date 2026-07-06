@@ -3,7 +3,7 @@ import pathlib
 import yaml
 from datetime import date
 
-from . import curate, sources, youtube
+from . import curate, site, sources, youtube
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
@@ -14,19 +14,15 @@ def channel_ids():
     return [c["id"] for c in data["channels"]]
 
 
-def write_index(docs=DOCS):
-    files = sorted((docs / "newsletters").glob("*.md"), reverse=True)
-    lines = ["---", "title: Watchlist Curator", "---", "", "# Newsletters", ""]
-    lines += [f"- [{f.stem}](newsletters/{f.stem}.html)" for f in files]
-    (docs / "index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
-def write_newsletter(today, markdown, kind="Daily"):
+def write_newsletter(today, markdown, kind="Daily", summary="", tags=None):
     suffix = "" if kind == "Daily" else "-weekly"
     path = DOCS / "newsletters" / f"{today.isoformat()}{suffix}.md"
-    front = f"---\ntitle: {kind} Watchlist — {today.isoformat()}\n---\n\n"
-    path.write_text(front + markdown + "\n", encoding="utf-8")
-    write_index()
+    front = yaml.safe_dump(
+        {"title": f"{kind} Watchlist — {today.isoformat()}",
+         "summary": summary, "tags": tags or []},
+        allow_unicode=True, sort_keys=False)
+    path.write_text(f"---\n{front}---\n\n" + markdown + "\n", encoding="utf-8")
+    site.build()
     return path
 
 
@@ -62,7 +58,9 @@ def main(dry_run=False):
         # newsletter still publishes if playlist ops fail (spec: error handling)
         print(f"WARNING: playlist update failed: {e}")
 
-    path = write_newsletter(today, result["newsletter_markdown"])
+    path = write_newsletter(today, result["newsletter_markdown"],
+                            summary=result.get("summary", ""),
+                            tags=result.get("tags", []))
     print(f"wrote {path}")
 
 

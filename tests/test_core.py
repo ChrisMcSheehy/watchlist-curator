@@ -78,18 +78,65 @@ def test_seen_video_ids(tmp_dir="tests/_tmp_newsletters"):
     shutil.rmtree(p)
 
 
-def test_write_index(tmp_dir="tests/_tmp_docs"):
+def test_parse_issue(tmp_dir="tests/_tmp_issue"):
     import shutil
-    from src.daily import write_index
+    from src.site import parse_issue
+    p = pathlib.Path(tmp_dir)
+    shutil.rmtree(p, ignore_errors=True)
+    p.mkdir(parents=True)
+    f = p / "2026-07-06-weekly.md"
+    f.write_text("---\ntitle: Weekly — 2026-07-06\nsummary: A test week.\n"
+                 "tags: [dbt, local-llm]\n---\n\n## Breaking News\n\nBig.\n\n"
+                 "## Headlines\n\nStuff.\n", encoding="utf-8")
+    it = parse_issue(f)
+    assert it["kind"] == "weekly" and it["date"] == "2026-07-06"
+    assert it["tags"] == ["dbt", "local-llm"] and it["breaking"]
+    assert it["headings"] == ["Breaking News", "Headlines"]
+    assert it["summary"] == "A test week."
+    # missing front matter fields degrade gracefully
+    g = p / "2026-07-05.md"
+    g.write_text("---\ntitle: Daily\n---\n\nFirst paragraph here.\n", encoding="utf-8")
+    it2 = parse_issue(g)
+    assert it2["kind"] == "daily" and it2["tags"] == []
+    assert it2["summary"] == "First paragraph here."
+    shutil.rmtree(p)
+
+
+def test_site_build(tmp_dir="tests/_tmp_site"):
+    import shutil
+    from src.site import build
     root = pathlib.Path(tmp_dir)
     shutil.rmtree(root, ignore_errors=True)
     (root / "newsletters").mkdir(parents=True)
-    (root / "newsletters" / "2026-07-05.md").write_text("x", encoding="utf-8")
-    (root / "newsletters" / "2026-07-04.md").write_text("x", encoding="utf-8")
-    write_index(root)
-    idx = (root / "index.md").read_text(encoding="utf-8")
-    assert idx.index("2026-07-05.html") < idx.index("2026-07-04.html")  # newest first
+    for day in ("2026-07-04", "2026-07-05"):
+        (root / "newsletters" / f"{day}.md").write_text(
+            f"---\ntitle: Daily — {day}\nsummary: s\ntags: [dbt]\n---\n\n"
+            "## Headlines\n\n[link](https://example.com)\n", encoding="utf-8")
+    n = build(root)
+    assert n == 2
+    idx = (root / "index.html").read_text(encoding="utf-8")
+    assert idx.index("2026-07-05") < idx.index("2026-07-04")  # newest first
+    page = (root / "newsletters" / "2026-07-05.html").read_text(encoding="utf-8")
+    assert '<a href="https://example.com">link</a>' in page  # markdown rendered
+    assert 'id="headlines"' in page                          # toc anchor exists
+    assert "2026-07-04.html" in page                         # prev/next nav
+    assert (root / "search.json").exists() and (root / "feed.xml").exists()
+    assert (root / ".nojekyll").exists()
     shutil.rmtree(root)
+
+
+def test_week_watchlist():
+    from src.weekly import week_watchlist
+    d1 = ("## Headlines\n\nx\n\n## Today's Watchlist\n\n"
+          "- [A](https://www.youtube.com/watch?v=AAAAAAAAAAA) – why a\n"
+          "- [B](https://www.youtube.com/watch?v=BBBBBBBBBBB) – why b\n\n"
+          "## Repo Watchlist\n\n- stuff\n")
+    d2 = ("## Today's Watchlist\n\n"
+          "- [B again](https://www.youtube.com/watch?v=BBBBBBBBBBB) – dupe\n"
+          "- [C](https://youtu.be/CCCCCCCCCCC) – why c\n")
+    items = week_watchlist([d1, d2])
+    assert len(items) == 3  # B deduped
+    assert "AAAAAAAAAAA" in items[0] and "CCCCCCCCCCC" in items[2]
 
 
 if __name__ == "__main__":
