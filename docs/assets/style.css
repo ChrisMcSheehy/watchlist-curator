@@ -321,6 +321,47 @@ a { color: inherit; }
 
 .prose hr { border: none; border-top: 1px solid var(--hairline); margin: 2.5rem 0; }
 
+/* collapsible watchlist sections */
+
+.watchlist {
+  margin: 3rem 0 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  background: var(--bg-lift);
+  padding: 0.4rem 1.4rem;
+}
+
+.watchlist summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  padding: 1rem 0;
+  color: var(--accent);
+}
+
+.watchlist summary::-webkit-details-marker { display: none; }
+
+.watchlist summary::after {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  flex: none;
+  border-right: 2px solid var(--ink-soft);
+  border-bottom: 2px solid var(--ink-soft);
+  transform: rotate(45deg);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.watchlist[open] summary::after { transform: rotate(-135deg); }
+
+.watchlist > *:last-child { margin-bottom: 1rem; }
+
 /* ---------- toc ---------- */
 
 .toc { display: none; }

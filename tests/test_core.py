@@ -125,6 +125,18 @@ def test_site_build(tmp_dir="tests/_tmp_site"):
     shutil.rmtree(root)
 
 
+def test_collapsible_watchlist():
+    from src.site import _collapsible_watchlists
+    html_in = ('<h2 id="todays-watchlist">Today’s Watchlist</h2>'
+               "<ul><li>vid</li></ul>"
+               '<h2 id="repo-watchlist">Repo Watchlist</h2><p>repos</p>')
+    out = _collapsible_watchlists(html_in)
+    assert '<details class="watchlist" id="todays-watchlist" open>' in out
+    assert "<summary>Today’s Watchlist</summary>" in out
+    assert "<ul><li>vid</li></ul></details>" in out
+    assert '<h2 id="repo-watchlist">' in out  # repo section untouched
+
+
 def test_seen_repos(tmp_dir="tests/_tmp_repos"):
     import shutil
     from src.curate import seen_repos

@@ -74,8 +74,12 @@ def main(dry_run=False):
 
     videos = week_watchlist(dailies)
     if videos:
-        digest += "\n\n## This Week's Watchlist\n\nEvery video recommended this week:\n\n" \
-            + "\n".join(videos)
+        section = ("This Week's Watchlist\n\nEvery video recommended this week:\n\n"
+                   + "\n".join(videos) + "\n")
+        # insert after the first section (The Week in Brief); append if digest is bare
+        parts = digest.strip().split("\n## ")
+        parts.insert(1 if len(parts) > 1 else len(parts), section)
+        digest = "\n## ".join(parts)
 
     if dry_run:
         print(digest)

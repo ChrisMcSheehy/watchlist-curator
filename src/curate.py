@@ -100,12 +100,12 @@ Return JSON with exactly these keys:
   1. "## Breaking News" — ONLY if the material contains a genuinely major event
      (model launch/retirement, major product release, acquisition). Include 2-3
      practical "how to make the most of it" tips.
-  2. "## Headlines" — the day's notable items as substantial paragraphs (2-4
-     sentences each: what happened, why it matters to me), each with a markdown
-     citation link to its source.
-  3. "## Today's Watchlist" — the playlist_videos with youtube links
+  2. "## Today's Watchlist" — the playlist_videos with youtube links
      (https://www.youtube.com/watch?v=ID). For each: 2-3 sentences on why it made
      the cut and the most interesting specific claims from its transcript.
+  3. "## Headlines" — the day's notable items as substantial paragraphs (2-4
+     sentences each: what happened, why it matters to me), each with a markdown
+     citation link to its source.
   4. "## Worth a Skim" — REQUIRED whenever any on-topic candidate video did not
      make the playlist: dissect each from its transcript into 2-4 bullet key
      takeaways with links, so I get the substance without the watch time.

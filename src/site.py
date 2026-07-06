@@ -164,8 +164,22 @@ def _slugify(text):
     return re.sub(r"[\s]+", "-", text).strip("-")
 
 
+WATCHLIST_H2_RE = re.compile(
+    r'(<h2 id="(todays-watchlist|this-weeks-watchlist)">(.*?)</h2>)(.*?)(?=<h2 |\Z)',
+    re.DOTALL)
+
+
+def _collapsible_watchlists(body_html):
+    """Wrap watchlist sections in native <details> so they collapse/expand."""
+    return WATCHLIST_H2_RE.sub(
+        lambda m: (f'<details class="watchlist" id="{m.group(2)}" open>'
+                   f'<summary>{m.group(3)}</summary>{m.group(4)}</details>'),
+        body_html)
+
+
 def _issue_html(it, prev_it, next_it):
-    body_html = markdown.markdown(it["body"], extensions=["extra", "toc"])
+    body_html = _collapsible_watchlists(
+        markdown.markdown(it["body"], extensions=["extra", "toc"]))
     nav = ""
     if prev_it:
         nav += f'<a class="pager-link" href="{prev_it["slug"]}.html"><span class="mono dim">Older</span><span>{html.escape(prev_it["title"])}</span></a>'
