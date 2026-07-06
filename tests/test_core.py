@@ -131,7 +131,7 @@ def test_week_watchlist():
           "- [A](https://www.youtube.com/watch?v=AAAAAAAAAAA) – why a\n"
           "- [B](https://www.youtube.com/watch?v=BBBBBBBBBBB) – why b\n\n"
           "## Repo Watchlist\n\n- stuff\n")
-    d2 = ("## Today's Watchlist\n\n"
+    d2 = ("## Today’s Watchlist\n\n"  # curly apostrophe, as LLMs often emit
           "- [B again](https://www.youtube.com/watch?v=BBBBBBBBBBB) – dupe\n"
           "- [C](https://youtu.be/CCCCCCCCCCC) – why c\n")
     items = week_watchlist([d1, d2])

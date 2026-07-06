@@ -6,7 +6,7 @@ from . import llm, site, sources, youtube
 from .curate import VIDEO_ID_RE
 from .daily import DOCS, write_newsletter
 
-WATCHLIST_RE = re.compile(r"^## Today's Watchlist\s*\n(.*?)(?=^## |\Z)",
+WATCHLIST_RE = re.compile(r"^## Today['’]s Watchlist\s*\n(.*?)(?=^## |\Z)",
                           re.MULTILINE | re.DOTALL)
 
 
