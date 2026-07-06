@@ -30,12 +30,12 @@ def main(dry_run=False):
         "Markdown. Sections: '## The Week in Brief' (narrative summary), "
         "'## Breaking News Recap' (only if any daily had breaking news), "
         "'## Best of the Watchlist' (standout videos of the week with links), "
-        "'## Snowflake & dbt Deep Dive' (the CENTREPIECE — a thorough long-form read "
-        "built from the DEEP RESEARCH section below, keeping all its detail and "
-        "citations; omit only if empty), "
+        "'## Deep Dive' (the CENTREPIECE — a thorough long-form read built from the "
+        "DEEP RESEARCH section below, keeping all its detail and citations, "
+        "organised by topic area; omit only if empty), "
         "'## Repo Roundup'. Keep every citation link from the dailies and deep research "
         "that you reference. Do not invent anything not present in the material.\n\n"
-        f"DEEP RESEARCH (Snowflake/dbt, this week):\n{deep_dive}\n\n"
+        f"DEEP RESEARCH (this week, across all my interests):\n{deep_dive}\n\n"
         "DAILY BRIEFINGS:\n---\n\n"
         + "\n\n=====\n\n".join(dailies),
         system="You are a personal news curator writing a weekly digest. Respond with markdown only.",

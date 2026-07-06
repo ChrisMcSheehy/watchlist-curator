@@ -51,12 +51,13 @@ def research(hours=24):
 
 
 def deep_research(days=7, seen=""):
-    """Weekly deep dive on Snowflake/dbt (deep_research role, e.g. Perplexity Sonar).
+    """Weekly deep dive across all interests (deep_research role, e.g. Perplexity Sonar).
 
     `seen` is optional context (the week's daily briefings) so the sweep goes
     deeper on threads already surfaced and, more importantly, fills gaps they
     missed — rather than repeating them.
     """
+    topics = yaml.safe_load((CONFIG / "interests.yaml").read_text())["topics"]
     context = (
         "\n\nAlready surfaced in my daily briefings this week — go deeper on these "
         "AND prioritise surfacing anything they missed, not repeating them:\n" + seen
@@ -64,11 +65,12 @@ def deep_research(days=7, seen=""):
     )
     return llm.complete(
         "deep_research",
-        "I follow Snowflake and dbt closely and want a thorough, long-form weekly "
-        f"briefing. Deep dive into the last {days} days in Snowflake and dbt: new "
-        "features, releases, deprecations, pricing/performance changes, roadmap "
-        "signals, and notable engineering practices or write-ups. Be thorough and "
-        "technical. Include a source URL for every claim." + context,
+        "I want a thorough, long-form weekly briefing across these areas: "
+        + "; ".join(topics)
+        + f". Deep dive into the last {days} days: new features, releases, "
+        "deprecations, pricing/performance changes, roadmap signals, and notable "
+        "engineering practices or write-ups. Be thorough and technical. Include a "
+        "source URL for every claim." + context,
     )
 
 
