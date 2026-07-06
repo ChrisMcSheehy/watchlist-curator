@@ -11,8 +11,10 @@ WATCHLIST_RE = re.compile(r"^## Today's Watchlist\s*\n(.*?)(?=^## |\Z)",
 
 
 def past_week_daily_files(today):
+    # includes today (i=0): no-op on the 05:00 cron (daily runs 05:30),
+    # but manual re-runs later in the day pick up that morning's issue
     files = []
-    for i in range(1, 8):
+    for i in range(0, 8):
         f = DOCS / "newsletters" / f"{(today - timedelta(days=i)).isoformat()}.md"
         if f.exists():
             files.append(f)
