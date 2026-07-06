@@ -24,6 +24,13 @@ jobs:
           git config user.name "watchlist-curator"
           git config user.email "actions@users.noreply.github.com"
           git add docs
-          git diff --cached --quiet || git commit -m "weekly digest: $(date -u +%F)"
-          git pull --rebase origin main
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "weekly digest: $(date -u +%F)"
+            # generated files conflict when runs overlap: take ours, then
+            # rebuild the site from the merged newsletters and fold it in
+            git pull --rebase -X theirs origin main
+            python -m src.site
+            git add docs
+            git diff --cached --quiet || git commit --amend --no-edit
+            git push
+          fi
