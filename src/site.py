@@ -3,6 +3,7 @@
 Zero build step: the daily/weekly runs call build() and commit the output.
 GitHub Pages serves docs/ raw (.nojekyll).
 """
+import hashlib
 import html
 import json
 import pathlib
@@ -56,8 +57,20 @@ def _display_date(iso):
     return date.fromisoformat(iso).strftime("%d %b %Y")
 
 
+def _assets_version():
+    """Content hash of the CSS+JS, appended as ?v= so a deploy busts stale caches.
+    Without it, returning visitors keep the browser-cached old assets forever."""
+    h = hashlib.md5()
+    for name in ("style.css", "app.js"):
+        f = DOCS / "assets" / name
+        if f.exists():
+            h.update(f.read_bytes())
+    return h.hexdigest()[:8]
+
+
 def _page(title, content, depth=0, extra_head=""):
     p = "../" * depth
+    v = _assets_version()
     return f"""<!doctype html>
 <html lang="en" data-theme="light">
 <head>
@@ -67,7 +80,7 @@ def _page(title, content, depth=0, extra_head=""):
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="{p}assets/rafiki.png">
-<link rel="stylesheet" href="{p}assets/style.css">
+<link rel="stylesheet" href="{p}assets/style.css?v={v}">
 <link rel="alternate" type="application/rss+xml" title="The Daily Signal" href="{p}feed.xml">
 <script>
 try {{ document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"; }} catch (e) {{}}
@@ -90,7 +103,7 @@ try {{ document.documentElement.dataset.theme = localStorage.getItem("theme") ||
   <span>Curated daily by the watchlist pipeline.</span>
   <a href="https://github.com/ai-burst/ai-burst.github.io">Source</a>
 </footer>
-<script src="{p}assets/app.js"></script>
+<script src="{p}assets/app.js?v={v}"></script>
 </body>
 </html>"""
 
