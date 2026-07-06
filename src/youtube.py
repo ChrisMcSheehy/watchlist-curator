@@ -106,7 +106,7 @@ def get_or_create_playlist(yt, name):
     body = {
         "snippet": {"title": name, "description":
                     "Week of " + name + " — full writeups: "
-                    "https://chrismcsheehy.github.io/watchlist-curator/"},
+                    "https://chrismcsheehy.github.io/signal/"},
         "status": {"privacyStatus": "private"},
     }
     return yt.playlists().insert(part="snippet,status", body=body).execute()["id"]

@@ -85,10 +85,10 @@ NEW GITHUB REPOS (created recently, by stars):
 {json.dumps(repos, indent=1)}
 
 Return JSON with exactly these keys:
-- "playlist_videos": the 2-3 best videos for me to WATCH today, honouring the
-  'video_preferences' in my interests above. Hard constraint:
+- "playlist_videos": the best videos for me to WATCH today, honouring the
+  'video_preferences' in my interests above. TARGET: 2-3 picks — only give fewer
+  on a genuinely thin day where nothing else clears the bar. Hard constraint:
   total minutes <= 60. Each: {{"id", "title", "minutes", "why"}} ('why' = one sentence).
-  Fewer or zero picks is fine on a thin day — never pad with mediocre videos.
 - "summary": one plain sentence (max 25 words) capturing today's most notable story,
   for the newsletter index page.
 - "tags": 3-6 lowercase kebab-case topic tags for this issue, drawn from themes like
@@ -106,11 +106,17 @@ Return JSON with exactly these keys:
   3. "## Headlines" — the day's notable items as substantial paragraphs (2-4
      sentences each: what happened, why it matters to me), each with a markdown
      citation link to its source.
-  4. "## Worth a Skim" — REQUIRED whenever any on-topic candidate video did not
-     make the playlist: dissect each from its transcript into 2-4 bullet key
-     takeaways with links, so I get the substance without the watch time.
-  5. "## Repo Watchlist" — the most interesting new repos, 1-2 sentences each on
-     why it's cool and what I'd use it for, with links.
+  4. "## Worth a Skim" — 2-3 dissections of on-topic candidate videos that did
+     not make the playlist (omit the section only when no such videos exist):
+     each dissected from its transcript into 2-4 bullet key takeaways with
+     links, so I get the substance without the watch time.
+  5. "## Repo Watchlist" — the most interesting repos, GROUPED by topic under
+     "### dbt", "### Snowflake", "### Local LLMs", "### LLM Development" (only
+     the groups that apply). 1-2 sentences each on why it's cool and what I'd
+     use it for, with links.
+  6. "## Trending Repos" — one line each for the remaining notable repos from
+     the material (name link + what it is). Prefix the line with ✅ when the
+     repo is directly relevant to my interests; leave unmarked otherwise.
 Every factual claim needs a linked source. When both a Reddit/social link and a
 primary source (official blog, release notes, paper, repo) exist in the material for
 the same story, cite the primary source first and the discussion link second; never
