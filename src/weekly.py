@@ -17,20 +17,22 @@ def past_week_dailies(today):
 def main(dry_run=False):
     today = date.today()
 
+    dailies = past_week_dailies(today)
     try:
-        deep_dive = sources.deep_research()
+        deep_dive = sources.deep_research(seen="\n\n=====\n\n".join(dailies))
     except Exception as e:
         print(f"WARNING: weekly deep research failed: {e}")
         deep_dive = ""
 
-    dailies = past_week_dailies(today)
     digest = llm.complete(
         "curation",
         "Synthesize these daily briefings into one weekly digest (20-30 min read). "
         "Markdown. Sections: '## The Week in Brief' (narrative summary), "
         "'## Breaking News Recap' (only if any daily had breaking news), "
         "'## Best of the Watchlist' (standout videos of the week with links), "
-        "'## Snowflake & dbt Deep Dive' (from the DEEP RESEARCH section below; omit if empty), "
+        "'## Snowflake & dbt Deep Dive' (the CENTREPIECE — a thorough long-form read "
+        "built from the DEEP RESEARCH section below, keeping all its detail and "
+        "citations; omit only if empty), "
         "'## Repo Roundup'. Keep every citation link from the dailies and deep research "
         "that you reference. Do not invent anything not present in the material.\n\n"
         f"DEEP RESEARCH (Snowflake/dbt, this week):\n{deep_dive}\n\n"

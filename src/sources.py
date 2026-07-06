@@ -50,14 +50,25 @@ def research(hours=24):
     )
 
 
-def deep_research(days=7):
-    """Weekly deep dive on Snowflake/dbt (deep_research role, e.g. Perplexity Sonar)."""
+def deep_research(days=7, seen=""):
+    """Weekly deep dive on Snowflake/dbt (deep_research role, e.g. Perplexity Sonar).
+
+    `seen` is optional context (the week's daily briefings) so the sweep goes
+    deeper on threads already surfaced and, more importantly, fills gaps they
+    missed — rather than repeating them.
+    """
+    context = (
+        "\n\nAlready surfaced in my daily briefings this week — go deeper on these "
+        "AND prioritise surfacing anything they missed, not repeating them:\n" + seen
+        if seen else ""
+    )
     return llm.complete(
         "deep_research",
-        f"Deep dive into the last {days} days in Snowflake and dbt: new features, "
-        "releases, deprecations, pricing/perf changes, and notable engineering "
-        "practices or write-ups. Be thorough and technical. Include a source URL "
-        "for every claim.",
+        "I follow Snowflake and dbt closely and want a thorough, long-form weekly "
+        f"briefing. Deep dive into the last {days} days in Snowflake and dbt: new "
+        "features, releases, deprecations, pricing/performance changes, roadmap "
+        "signals, and notable engineering practices or write-ups. Be thorough and "
+        "technical. Include a source URL for every claim." + context,
     )
 
 
