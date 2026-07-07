@@ -1,6 +1,7 @@
 topics:
   - Local / open-weight large language models (llama.cpp, Ollama, vLLM, quantization, new model releases)
   - Snowflake (new features, performance, cost optimisation)
+  - Cortex Code (CoCo, Snowflake AI, CoWork)
   - dbt (releases, modelling patterns, testing, performance)
   - LLM development (agents, APIs, evals, prompting, major provider news)
   - open weight llm (new models, model variants, comparisons to frontier models, reducing vram/memory requirements)
