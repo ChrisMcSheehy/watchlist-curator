@@ -56,7 +56,9 @@ def main(dry_run=False):
         "curation",
         "Synthesize these daily briefings into one weekly digest. HARD LIMIT: a "
         "25-30 minute read (max ~6500 words total) — be selective, not exhaustive. "
-        "Markdown. Sections, in this order: "
+        "Markdown. Start directly at the first '## ' section — no top-level "
+        "'# Title', subtitle, or leading horizontal rule; the page adds the title. "
+        "Sections, in this order: "
         "'## Work Watch — Snowflake, dbt & Cortex Code' — THE MOST IMPORTANT "
         "SECTION, it ALWAYS leads the digest (even above The Week in Brief) whenever "
         "the week's material has ANY Snowflake, dbt, or Cortex Code (Snowflake's AI "

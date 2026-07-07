@@ -26,7 +26,7 @@ def parse_issue(path):
     text = pathlib.Path(path).read_text(encoding="utf-8")
     m = FRONT_RE.match(text)
     meta = yaml.safe_load(m.group(1)) if m else {}
-    body = text[m.end():] if m else text
+    body = _strip_leading_title(text[m.end():] if m else text)
     slug = pathlib.Path(path).stem
     kind = "weekly" if slug.endswith("-weekly") else "daily"
     iso = slug.removesuffix("-weekly")
@@ -44,6 +44,21 @@ def parse_issue(path):
         "headings": H2_RE.findall(body),
         "body": body.strip(),
     }
+
+
+def _strip_leading_title(body):
+    """Drop any title block the model prepends before the first '## ' section.
+
+    The frontmatter title is already rendered as the page <h1>, so a leading
+    '# Title' (plus subtitle/'---') would show a second, competing title. Only
+    strips when the body actually starts with an H1; bodies that already begin
+    at '## ' are left untouched.
+    """
+    b = body.lstrip()
+    if not b.startswith("# "):
+        return body
+    m = re.search(r"^## ", b, re.MULTILINE)
+    return b[m.start():] if m else b
 
 
 def _cost_span(it):

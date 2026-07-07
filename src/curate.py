@@ -87,7 +87,9 @@ NEW GITHUB REPOS (created recently, by stars):
 Produce TWO parts, in this exact order.
 
 PART 1 — the newsletter itself, as plain markdown (do NOT wrap it in code fences
-or JSON). A newspaper-style daily briefing.
+or JSON). A newspaper-style daily briefing. Start directly at the first "## "
+section — do NOT add a top-level "# Title", a subtitle line, or a leading
+horizontal rule; the page already shows the date and title above your content.
   LENGTH TARGET: a 5-10 minute read (roughly 1300-2500 words). Readers skim the
   sections they care about, so richness beats brevity — do NOT compress the issue
   to a summary. Sections, in order, omitting any that are truly empty:

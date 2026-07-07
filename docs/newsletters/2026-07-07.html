@@ -36,10 +36,7 @@ try { document.documentElement.dataset.theme = localStorage.getItem("theme") || 
     <span class="mono dim" title="LLM cost to generate this issue">$0.048</span>
       </div>
       <h1>Daily Signal — 2026-07-07</h1>
-      <h1 id="the-daily-brief-2026-07-07">The Daily Brief – 2026-07-07</h1>
-<p><strong>local LLMs, Snowflake, dbt <and> the open-weight scene</strong></p>
-<hr />
-<h2 id="breaking-news">Breaking News</h2>
+      <h2 id="breaking-news">Breaking News</h2>
 <h3 id="google-gemma-4-mtp-drops-ollama-integrates-same-day-2-faster-on-apple-silicon">Google Gemma 4 MTP Drops, Ollama Integrates Same Day — 2× Faster on Apple Silicon</h3>
 <p>Google released the <strong>Gemma 4 Multi-Token Prediction drafter weights</strong> on Monday, and Ollama turned around <strong>same-day integration</strong> with version 0.23.1 before pushing a polished 0.24.0 release just days later (<a href="https://codersera.com/blog/ollama-vs-lm-studio-vs-vllm-vs-llama-cpp-vs-mlx-2026/">Codersera</a>). The results are startling: <strong>&gt;2× throughput improvement</strong> on Gemma 4 31B coding tasks running on Apple Silicon via the reworked <strong>MLX runner</strong>. Speculative decoding lets the model draft multiple tokens ahead while a verifier checks them in a single pass, reusing the target model's KV cache to avoid re-computation.</p>
 <p>This matters because it takes a frontier-class open-weight model and makes it genuinely usable on consumer Mac hardware for interactive coding workflows. No cloud API, no datacenter GPU — just a MacBook Pro.</p>

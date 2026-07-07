@@ -83,6 +83,19 @@ def test_seen_video_ids(tmp_dir="tests/_tmp_newsletters"):
     shutil.rmtree(p)
 
 
+def test_strip_leading_title():
+    from src.site import _strip_leading_title
+    # H1 + subtitle + hr before the first section is dropped; internal --- kept
+    body = ("# The Daily Brief\n**a subtitle**\n\n---\n\n"
+            "## Breaking News\n\nx\n\n---\n\n## Headlines\n\ny\n")
+    out = _strip_leading_title(body)
+    assert out.startswith("## Breaking News")
+    assert out.count("---") == 1  # the section separator survives
+    # a body already starting at '## ' is untouched
+    clean = "## Breaking News\n\nx\n"
+    assert _strip_leading_title(clean) == clean
+
+
 def test_parse_issue(tmp_dir="tests/_tmp_issue"):
     import shutil
     from src.site import parse_issue
