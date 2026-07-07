@@ -56,7 +56,15 @@ def main(dry_run=False):
         "curation",
         "Synthesize these daily briefings into one weekly digest. HARD LIMIT: a "
         "25-30 minute read (max ~6500 words total) — be selective, not exhaustive. "
-        "Markdown. Sections: '## The Week in Brief' (narrative summary), "
+        "Markdown. Sections, in this order: "
+        "'## Work Watch — Snowflake, dbt & Cortex Code' — THE MOST IMPORTANT "
+        "SECTION, it ALWAYS leads the digest (even above The Week in Brief) whenever "
+        "the week's material has ANY Snowflake, dbt, or Cortex Code (Snowflake's AI "
+        "coding agent) news; group it under '### Snowflake', '### dbt', "
+        "'### Cortex Code' (only groups with news), keep every citation, and do NOT "
+        "repeat these items in later sections; omit the section only if there is "
+        "genuinely no such news this week. "
+        "'## The Week in Brief' (narrative summary), "
         "'## Breaking News Recap' (only if any daily had breaking news), "
         "'## Deep Dive' (the CENTREPIECE — a focused long-form read built from the "
         "DEEP RESEARCH section below, organised by topic area with '### Topic' "
@@ -80,7 +88,7 @@ def main(dry_run=False):
     if videos:
         section = ("This Week's Watchlist\n\nEvery video recommended this week:\n\n"
                    + "\n".join(videos) + "\n")
-        # insert after the first section (The Week in Brief); append if digest is bare
+        # insert after the first section (Work Watch or The Week in Brief); append if bare
         parts = digest.strip().split("\n## ")
         parts.insert(1 if len(parts) > 1 else len(parts), section)
         digest = "\n## ".join(parts)

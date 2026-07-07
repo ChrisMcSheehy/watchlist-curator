@@ -67,14 +67,19 @@ def test_parse_llm_json():
 
 def test_seen_video_ids(tmp_dir="tests/_tmp_newsletters"):
     import shutil
-    from src.curate import seen_video_ids
+    from src import curate
     p = pathlib.Path(tmp_dir)
     shutil.rmtree(p, ignore_errors=True)
     p.mkdir(parents=True)
     (p / "2026-07-04.md").write_text(
         "watch [this](https://www.youtube.com/watch?v=abcdefghijk) "
         "and [that](https://youtu.be/AAAAAAAAAAA)", encoding="utf-8")
-    assert seen_video_ids(p) == {"abcdefghijk", "AAAAAAAAAAA"}
+    old_ledger = curate.SEEN_LEDGER  # isolate from the real docs/ ledger
+    curate.SEEN_LEDGER = p / "seen_videos.txt"
+    try:
+        assert curate.seen_video_ids(p) == {"abcdefghijk", "AAAAAAAAAAA"}
+    finally:
+        curate.SEEN_LEDGER = old_ledger
     shutil.rmtree(p)
 
 

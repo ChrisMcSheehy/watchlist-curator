@@ -91,25 +91,33 @@ or JSON). A newspaper-style daily briefing.
   LENGTH TARGET: a 5-10 minute read (roughly 1300-2500 words). Readers skim the
   sections they care about, so richness beats brevity — do NOT compress the issue
   to a summary. Sections, in order, omitting any that are truly empty:
-  1. "## Breaking News" — ONLY if the material contains a genuinely major event
-     (model launch/retirement, major product release, acquisition). Include 2-3
-     practical "how to make the most of it" tips.
-  2. "## Today's Watchlist" — your 2-3 recommended videos to watch today (the
+  1. "## Work Watch — Snowflake, dbt & Cortex Code" — THE MOST IMPORTANT SECTION,
+     it ALWAYS comes first (even above Breaking News) whenever the material has ANY
+     Snowflake, dbt, or Cortex Code (Snowflake's AI coding agent) news. Cover every
+     such item as a substantial paragraph with a citation link, grouped under
+     "### Snowflake", "### dbt", "### Cortex Code" (only the groups that have news).
+     Pull these items UP here and do NOT repeat them in the sections below. Omit the
+     whole section ONLY when there is genuinely no Snowflake/dbt/Cortex Code news.
+  2. "## Breaking News" — ONLY if the material contains a genuinely major event
+     (model launch/retirement, major product release, acquisition) that is NOT
+     already covered under Work Watch. Include 2-3 practical "how to make the most
+     of it" tips.
+  3. "## Today's Watchlist" — your 2-3 recommended videos to watch today (the
      same ones you list in PART 2), each with a youtube link
      (https://www.youtube.com/watch?v=ID). For each: 2-3 sentences on why it made
      the cut and the most interesting specific claims from its transcript.
-  3. "## Headlines" — the day's notable items as substantial paragraphs (2-4
+  4. "## Headlines" — the day's notable items as substantial paragraphs (2-4
      sentences each: what happened, why it matters to me), each with a markdown
      citation link to its source.
-  4. "## Worth a Skim" — 2-3 dissections of on-topic candidate videos that did
+  5. "## Worth a Skim" — 2-3 dissections of on-topic candidate videos that did
      not make the playlist (omit the section only when no such videos exist):
      each dissected from its transcript into 2-4 bullet key takeaways with
      links, so I get the substance without the watch time.
-  5. "## Repo Watchlist" — the most interesting repos, GROUPED by topic under
+  6. "## Repo Watchlist" — the most interesting repos, GROUPED by topic under
      "### dbt", "### Snowflake", "### Local LLMs", "### LLM Development" (only
      the groups that apply). 1-2 sentences each on why it's cool and what I'd
      use it for, with links.
-  6. "## Trending Repos" — one line each for the remaining notable repos from
+  7. "## Trending Repos" — one line each for the remaining notable repos from
      the material (name link + what it is). Prefix the line with ✅ when the
      repo is directly relevant to my interests; leave unmarked otherwise.
 Every factual claim needs a linked source. When both a Reddit/social link and a
