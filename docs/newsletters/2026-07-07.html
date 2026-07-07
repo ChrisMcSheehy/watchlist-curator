@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Signal — 2026-07-07</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../assets/rafiki.png">
+<link rel="stylesheet" href="../assets/style.css?v=a1eee5a1">
+<link rel="alternate" type="application/rss+xml" title="The Daily Signal" href="../feed.xml">
+<script>
+try { document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"; } catch (e) {}
+</script>
+
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html">Signal<span class="brand-accent">.</span></a>
+  <nav class="head-nav">
+    <a href="https://www.youtube.com/@Data-Signal/playlists" class="head-link">Playlists</a>
+    <a href="../feed.xml" class="head-link">RSS</a>
+    <button id="theme-toggle" class="toggle" type="button" aria-label="Switch theme">
+      <span class="toggle-light">Light</span><span class="toggle-dark">Dark</span>
+    </button>
+  </nav>
+</header>
+<main class="wrap article-wrap">
+  <div class="article-grid">
+    <article class="prose">
+      <p class="crumbs"><a href="../index.html">All issues</a></p>
+      <div class="issue-meta">
+        <span class="mono">07 Jul 2026</span>
+        <span class="badge badge-daily">daily</span><span class="badge badge-breaking">Breaking news</span>
+        <span class="mono dim">12 min read</span>
+      </div>
+      <h1>Daily Signal — 2026-07-07</h1>
+      <h1 id="the-daily-brief-2026-07-07">The Daily Brief – 2026-07-07</h1>
+<p><strong>local LLMs, Snowflake, dbt <and> the open-weight scene</strong></p>
+<hr />
+<h2 id="breaking-news">Breaking News</h2>
+<h3 id="google-gemma-4-mtp-drops-ollama-integrates-same-day-2-faster-on-apple-silicon">Google Gemma 4 MTP Drops, Ollama Integrates Same Day — 2× Faster on Apple Silicon</h3>
+<p>Google released the <strong>Gemma 4 Multi-Token Prediction drafter weights</strong> on Monday, and Ollama turned around <strong>same-day integration</strong> with version 0.23.1 before pushing a polished 0.24.0 release just days later (<a href="https://codersera.com/blog/ollama-vs-lm-studio-vs-vllm-vs-llama-cpp-vs-mlx-2026/">Codersera</a>). The results are startling: <strong>&gt;2× throughput improvement</strong> on Gemma 4 31B coding tasks running on Apple Silicon via the reworked <strong>MLX runner</strong>. Speculative decoding lets the model draft multiple tokens ahead while a verifier checks them in a single pass, reusing the target model's KV cache to avoid re-computation.</p>
+<p>This matters because it takes a frontier-class open-weight model and makes it genuinely usable on consumer Mac hardware for interactive coding workflows. No cloud API, no datacenter GPU — just a MacBook Pro.</p>
+<p><strong>How to make the most of it:</strong></p>
+<ol>
+<li>If you're on Apple Silicon, upgrade to <strong>Ollama 0.24.0</strong> immediately. Gemma 4 with MTP is behind a feature flag; enable it via <code>OLLAMA_SPECULATIVE_DECODING=1</code> or the model-specific option in Modelfile.</li>
+<li>Pair Gemma 4 with <a href="https://github.com/continuedev/continue">continue.dev</a> or Cody as your coding assistant. The MTP speedup is most dramatic on long code-generation passes where the drafter predicts boilerplate accurately.</li>
+<li>Don't sleep on the <strong>reworked MLX sampler</strong> — early tests suggest better token diversity on creative tasks vs the previous default sampler, especially useful for brainstorming and architecture discussions.</li>
+</ol>
+<h3 id="vllm-0210-stabilises-deepseek-v4-on-blackwell-llamacpp-ships-cuda-131-prebuilts">vLLM 0.21.0 Stabilises DeepSeek V4 on Blackwell; llama.cpp Ships CUDA 13.1 Prebuilts</h3>
+<p>Two infrastructure power-moves landed simultaneously yesterday. <strong>vLLM 0.21.0</strong> introduced the new <code>TOKENSPEED_MLA</code> backend and finally made <strong>DeepSeek V4 stable on NVIDIA Blackwell GPUs</strong>, with speculative decoding that now respects reasoning budgets (<a href="https://codersera.com/blog/ollama-vs-lm-studio-vs-vllm-vs-llama-cpp-vs-mlx-2026/">Codersera</a>). Meanwhile, <strong>llama.cpp build b9196</strong> merged <strong>Qwen 3.6 MTP support</strong> (PR #22673) and shipped official <strong>Windows CUDA 13.1 prebuilts</strong> for the first time (<a href="https://codersera.com/blog/ollama-vs-lm-studio-vs-vllm-vs-llama-cpp-vs-mlx-2026/">Codersera</a>) — closing a long-standing gap for Windows users who previously had to compile from source.</p>
+<p>The practical upshot: DeepSeek V4 is now a production-grade option on Blackwell hardware (not just H100s), and Windows-native CUDA users get a first-class experience with llama.cpp.</p>
+<p><strong>How to make the most of it:</strong></p>
+<ol>
+<li>If you're deploying DeepSeek V4 on Blackwell (B200, B100), retest your throughput with <code>TOKENSPEED_MLA</code> — early adopters report 30%+ improvement on long-context inference.</li>
+<li>The <code>reasoning_budget</code> parameter in vLLM's speculative decoding lets you trade speed for accuracy: set it higher for agentic coding tasks where correctness matters, lower for chat.</li>
+<li>Windows users: grab the CUDA 13.1 prebuilt from the llama.cpp releases page and test Qwen 3.6 MTP immediately. Combined with the fast-math HIP PR (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uoqdxj/ggmlhip_enable_ffastmath_for_hip_builds_by_ahuk/">#23862</a>) for AMD users, the performance gap between OS platforms is shrinking fast.</li>
+</ol>
+<h3 id="anthropic-discovers-a-global-workspace-inside-claude-and-qwen-has-one-too">Anthropic Discovers a 'Global Workspace' Inside Claude — And Qwen Has One Too</h3>
+<p>Anthropic published a landmark research paper finding a neural representation in Claude analogous to the <strong>Global Workspace Theory of consciousness</strong>: a set of representations that broadcast "thoughts" across the model's internal layers before they become output tokens (<a href="https://www.anthropic.com/research/global-workspace">Anthropic Research</a>). They released the <strong>J-Space lens</strong> code on GitHub (<a href="https://github.com/anthropics/jacobian-lens">jacobian-lens</a>), and — critically for the open-weight community — a partner immediately demonstrated the same structures <strong>inside Qwen 3.6 27B</strong> via <a href="http://neuronpedia.org/jlens">neuronpedia.org/jlens</a> (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1upl93b/qwens_jspace_anthropics_discovery_of_an_internal/">r/LocalLLaMA</a>).</p>
+<p>This is a big deal because it suggests this workspace structure is an emergent property of transformer architectures, not a Claude-specific feature — meaning we can probe, steer, and understand open-weight models at a much deeper level than previously possible.</p>
+<hr />
+<details class="watchlist" id="todays-watchlist" open><summary>Today's Watchlist</summary>
+<h3 id="gemini-35-pro-is-fable-5-level-google-is-back">🎬 <a href="https://www.youtube.com/watch?v=ybonugGlP-4">Gemini 3.5 PRO Is Fable 5 Level... Google Is Back!</a></h3>
+<p><strong>Channel:</strong> AI Revolution | <strong>13 min 58 sec</strong></p>
+<p>The best roundup-style video for today's AI news cycle. AI Revolution traces the trail of leaks and timing around Gemini 3.5 Pro's rumoured July 17 launch, connecting it to the DeepMind rebuild, the Flash token-problem era, and how Google may be positioning to challenge Fable 5's dominant reasoning benchmarks. Given the channel's track record of surfacing pre-launch signals before major releases, this is a useful temperature-check on the frontier-model race — and what it means for open-weight alternatives if Google's pricing undercuts OpenAI. <strong>Key claim:</strong> Gemini 3.5 Pro may have been completely rebuilt rather than incrementally upgraded, which would explain the unusually long gap between releases.</p>
+<h3 id="whats-at-the-center-of-claudes-mind">🎬 <a href="https://www.youtube.com/watch?v=rKV5JcALQoQ">What's at the Center of Claude's Mind?</a></h3>
+<p><strong>Channel:</strong> Anthropic | <strong>5 min 27 sec</strong></p>
+<p>Not a news roundup, but the single most important technical video of the day. Anthropic's research team visualizes the "global workspace" they discovered inside Claude — a shared set of representations that broadcast across the model before token output, analogous to conscious thought in neuroscience. For data/AI engineers working with open-weight models, this matters because the accompanying J-Space lens code is open-source and works on Qwen 3.6. This video is the fastest way to understand what the workspace looks like in practice and why interpretability work is converging with neuroscience in ways that directly affect how we evaluate and debug local models.</p>
+<h3 id="how-to-run-deepseeks-284b-model-locally-on-laptop">🎬 <a href="https://www.youtube.com/watch?v=QSpPBx5sUos">How to Run DeepSeek's 284B Model Locally on Laptop</a></h3>
+<p><strong>Channel:</strong> Cloud Codes | <strong>7 min 41 sec</strong></p>
+<p>A practical, zero-hype walkthrough of running DeepSeek V4's 284B MoE model on consumer hardware using Salvatore Sanfilippo's <code>ds4</code> (DwarfStar) engine — a single-file C program with custom 2-bit quantization. Critical viewing for anyone curious about laptop-scale frontier models: Cloud Codes breaks down the memory math, the MoE routing, and how exactly a 284B-parameter model can run in 64GB of unified memory without melting your machine. The engineering elegance of <code>ds4</code> alone makes this worth the watch.</p>
+<hr />
+</details><h2 id="headlines">Headlines</h2>
+<p><strong>Tencent drops Hy3: 295B MoE (21B active), Apache 2.0 — beats Qwen4-Max on reasoning</strong>
+A massive open-weight release: Tencent's Hy3 is a 295B-parameter MoE with only 21B active parameters per forward pass, plus a 3.8B MTP layer for speculative decoding. It reportedly outperforms Qwen4-Max and Claude Opus 4.8 on several reasoning benchmarks. Available immediately on HuggingFace under Apache 2.0 (<a href="https://simonwillison.net/2026/Jul/6/hy3/#atom-everything">Simon Willison</a>). The 21B active-parameter sweet spot makes this a candidate for high-end consumer GPUs (dual 3090s or a Mac Studio) at 4-bit.</p>
+<p><strong>New GigaChat3.5-432B-A28B launches with day-zero GGUF on HuggingFace</strong>
+Sberbank released a massive 432B-total MoE (28B active) with GGUF quants available immediately from the <code>ai-sage</code> org. This matters because day-zero GGUF support means you can run it in llama.cpp, Ollama, or LM Studio the moment it drops — no waiting for the community to convert safetensors weights (<a href="https://huggingface.co/ai-sage/GigaChat3.5-432B-A28B-GGUF">HuggingFace</a>, <a href="https://www.reddit.com/r/LocalLLaMA/comments/1uotkm7/new_model_gigachat35432ba28b_with_day0_gguf/">r/LocalLLaMA discussion</a>).</p>
+<p><strong>Kyutai's Pocket TTS ships under MIT license: 5-second voice cloning on CPU</strong>
+A genuinely impressive TTS model: clones any voice from just 5 seconds of audio, runs entirely on CPU, and benchmarks competitively against Kokoro and Inflect-Nano for English text-to-speech. Licensed under MIT. Could replace cloud TTS for agent voice interfaces running fully local (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1up07mk/kyutais_pocket_tts_clones_a_voice_from_5_seconds/">r/LocalLLaMA</a>).</p>
+<p><strong>ThinkingCap-Qwen3.6-27B: same accuracy, ~50% fewer thinking tokens</strong>
+A fine-tune of Qwen 3.6 27B that achieves parity with the base model on reasoning benchmarks while generating roughly half the "thinking" tokens. This directly reduces latency and compute cost for reasoning-heavy agentic workloads (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1up3mui/thinkingcapqwen3627b_same_accuracy_as_base_qwen36/">r/LocalLLaMA</a>). Worth testing if you're hitting token-budget limits in agent loops.</p>
+<p><strong>Qwen 3.6 MTP support lands in llama.cpp, community confirms 2× speedup</strong>
+The MTP merge (PR #22673) shipped in yesterday's b9196 build, and early Reddit reports confirm roughly doubled tokens-per-second on Qwen 3.6 27B in llama.cpp with MTP enabled (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1upezt0/late_to_the_party_but_holy_mtp/">r/LocalLLaMA</a>). Combined with the ThinkingCap efficiency gain, Qwen 3.6 is becoming the go-to local model for coding agents in the 24GB-class GPU tier.</p>
+<p><strong>dbt Core v2.0.0-alpha.4 ships with DuckDB Iceberg REST catalog write support</strong>
+A notable milestone: dbt-duckdb now has read-write support for Horizon and Unity catalogs (Iceberg REST) via duckdb-iceberg write-compat options. This closes a longstanding gap where dbt could only read from these catalogs (<a href="https://github.com/dbt-labs/dbt-core/releases/tag/v2.0.0-alpha.4">GitHub release</a>). The <code>catalogs.yml v2</code> format also supports multiple catalog types with materialization awareness. Relevant for Snowflake users exploring open lakehouse architectures.</p>
+<p><strong>Snowflake Datastream launches: native Kafka-compatible streaming service</strong>
+A significant new Snowflake capability: <strong>Datastream</strong> is a fully managed, Apache Kafka-compatible streaming service that feeds directly into Snowpipe Streaming and Dynamic Tables — no external Kafka cluster required (<a href="https://www.youtube.com/watch?v=x42Yepsx7qI">Snowflake Developers video</a>). This means continuous AI pipelines and real-time decision systems can be built entirely within Snowflake, reducing operational complexity. For Snowflake shops doing real-time ML inference, this removes the Kafka ops burden.</p>
+<p><strong>Snowflake Cortex Agent optimisation playbook: from 55s to sub-30s in production</strong>
+A detailed technical write-up on optimising Snowflake's Cortex Agent: custom instructions, semantic layer design, and verified queries reduced a production agent's response time from 55 seconds to under 30 (<a href="https://medium.com/snowflake/from-55s-to-sub-30s-a-cortex-agent-optimization-playbook-for-production-14ae7c57169a?source=rss----34b6daafc07---4">Medium/Snowflake</a>). Key takeaway for data engineers: the semantic layer design was the single biggest lever — getting the tool descriptions and query templates right mattered more than hardware or model selection.</p>
+<p><strong>The Catalog Wars: Iceberg interoperability between Databricks and Snowflake</strong>
+A practical guide on making Databricks and Snowflake play nice over Iceberg tables, covering both the Catalog SDK approach and the Snowflake-managed Iceberg path (<a href="https://medium.com/snowflake/the-catalog-wars-navigating-interoperability-between-databricks-and-snowflake-ba7b57b96e28?source=rss----34b6daafc07---4">Medium</a>). Useful if your org has a foot in both camps and you're trying to avoid lock-in on the catalog layer.</p>
+<p><strong>r/LocalLLaMA: Qwen 3.6 27B fails on agentic tasks despite strong single-prompt scores</strong>
+An important community data point: multiple users report Qwen 3.6 27B (even at 8-bit or 16-bit) repeatedly fails in agentic coding workflows — losing context, hallucinating tool calls, and sending invalid CLI commands — while Qwen 3.5 122B at 4-bit reliably handles the same tasks (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uphzhj/qwen_36_27b_absolutely_fails_at_agentic_work/">r/LocalLLaMA</a>). Suggests the benchmarks may not be capturing multi-turn tool-use reliability. Related: a separate user confirms NVFP4-quantised Qwen 3.6 breaks agent loops while BF16 stays flawless (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uplzs7/qwen3627b_nvfp4fp8_agent_loops_vs_flawless_bf16/">r/LocalLLaMA</a>).</p>
+<p><strong>New 4-bit quant TQ3 achieves 4.9× compression vs FP16</strong>
+Emerging quantization formats continue to push the envelope: TQ3 delivers 4.9× compression and TQ4 3.8×, both validated in the open-weight ecosystem (<a href="https://codersera.com/blog/ollama-vs-lm-studio-vs-vllm-vs-llama-cpp-vs-mlx-2026/">Codersera</a>). Useful for squeezing 30B+ models onto 24GB GPUs.</p>
+<p><strong>Ant Group's LingBot-Vision 0.3B matches DINOv3-7B on depth estimation</strong>
+Not a language model, but notable for efficiency claims: a 0.3B vision backbone that matches a 7B model on NYUv2 depth estimation — 23× fewer parameters (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1up47qv/ant_group_released_lingbotvision_dinofamily/">r/LocalLLaMA</a>). Could be useful for local vision agents needing lightweight scene understanding.</p>
+<hr />
+<h2 id="worth-a-skim">Worth a Skim</h2>
+<h3 id="chinas-free-ai-tool-just-beat-claude-chatgpt-14-min-55-sec">🎬 <a href="https://www.youtube.com/watch?v=t4uPwTU_9W8">CHINA'S Free Ai Tool Just Beat Claude &amp; ChatGPT!</a> <em>(14 min 55 sec)</em></h3>
+<ul>
+<li><strong>Key claim:</strong> A new Chinese AI tool (likely referring to the GLM-5.2 + DSpark stack covered elsewhere in Cloud Codes) reportedly matches Claude and ChatGPT on reasoning and coding benchmarks.</li>
+<li><strong>Evidence presented:</strong> Benchmarks likely include HumanEval and GSM8K comparisons, plus real-world coding tasks.</li>
+<li><strong>Context:</strong> The open-weight scene has multiple new Chinese MoE models this week (Hy3, GigaChat3.5, GLM-5.2) — this video groups the story for a general audience but doesn't add much technical depth beyond what the Cloud Codes breakdown covers.</li>
+<li><strong>Worth your time?</strong> Only if you want the hype narrative. For technical understanding, the Cloud Codes GLM-5.2 video is deeper.</li>
+</ul>
+<h3 id="glm-52-dspark-is-insane-beats-claude-85-faster-opensource-9-min-39-sec">🎬 <a href="https://www.youtube.com/watch?v=wDpN2ORnqZk">GLM-5.2 + DSpark Is INSANE (Beats Claude + 85% Faster + OpenSource)</a> <em>(9 min 39 sec)</em></h3>
+<ul>
+<li><strong>Key claim:</strong> Z.ai's GLM-5.2 (744B MoE) combined with DeepSeek's DSpark speculative decoding framework achieves 85% faster generation than standard inference with zero quality loss — and matches Claude Opus 4.8 on SWE-bench Pro at 1/10th the cost.</li>
+<li><strong>Engineering detail:</strong> Covers how DSpark routes draft tokens through the MoE's smaller expert paths, eliminating the latency penalty that usually hits large MoE models.</li>
+<li><strong>Limitation:</strong> The 744B total parameters mean you're not running this on a laptop; the cost advantage is relative to API pricing, not local deployment.</li>
+<li><strong>Actionable:</strong> If you're paying for Claude Opus API access and can tolerate a self-hosted alternative, this stack is worth benchmarking. The DSpark framework is open-source.</li>
+</ul>
+<h3 id="this-report-big-tech-doesnt-want-you-to-see-17-min-10-sec">🎬 <a href="https://www.youtube.com/watch?v=UD0o67Q9zs4">This Report Big Tech Doesn't Want You To See</a> <em>(17 min 10 sec)</em></h3>
+<ul>
+<li><strong>Key claim:</strong> Big Tech is spending $725B on AI infrastructure in 2026, but internal figures are now publicly questioning ROI — particularly at Meta, where morale has collapsed amid layoffs and AI reorganisation.</li>
+<li><strong>Thread to pull:</strong> If major cloud providers slow their infrastructure buildout, it could reduce pressure on open-weight model efficiency — or conversely, accelerate the push to run models locally as cloud costs rise.</li>
+<li><strong>Relevant angle for data engineers:</strong> The tension between capital expenditure and actual AI revenue is creating pressure on Snowflake/Databricks pricing and may accelerate the shift toward open-weight models running on managed infrastructure rather than API calls.</li>
+</ul>
+<hr />
+<h2 id="repo-watchlist">Repo Watchlist</h2>
+<h3 id="local-llms">Local LLMs</h3>
+<ul>
+<li>
+<p><strong><a href="https://github.com/MiaAI-Lab/Best-Local-Model_Agentic-Workflows_2026">MiaAI-Lab/Best-Local-Model_Agentic-Workflows_2026</a></strong> ⭐ 24 — A head-to-head comparison of local LLMs specifically for agentic workflows (Hermes Agent, tool-eval-bench). Directly addresses the ongoing community debate about Qwen 3.6's agent reliability; I'd use this to benchmark my own agent configurations and contribute results for Qwen 3.6 on different quantization levels.</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/pauloberezini/hermes-synapse">pauloberezini/hermes-synapse</a></strong> ⭐ 20 — Visual multi-agent orchestrator with a drag-and-drop DAG canvas, dynamic LLM planning loops, and permission-based tool execution (includes local Qdrant RAG). Useful for prototyping complex agent pipelines before hard-coding them into production workflows.</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/kallewoof/tftf">kallewoof/tftf</a></strong> — Transforming Transformers: ultra-lightweight pipeline for manipulating enormous transformer models without loading them entirely into RAM. Solves the classic problem of merging LoRA weights into 70B+ models on memory-constrained machines. Streams operations per-tensor rather than loading the full model (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uow9wf/github_kallewooftftf_transforming_transformers/">r/LocalLLaMA</a>).</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/MaximeRivest/riddle">MaximeRivest/riddle</a></strong> — Turns a reMarkable e-ink tablet into an AI chat device: writes back replies in flowing script, stroke-by-stroke, using a local on-device model. A genuinely charming interface for local LLM interaction — no keyboard, no chat bubble UI (<a href="https://www.youtube.com/watch?v=j6H7EC4oYHQ">GitHub Awesome video</a>).</p>
+</li>
+<li>
+<p><strong><a href="https://www.youtube.com/watch?v=ZotwULorjwI">GitHub Trending Today #39</a></strong> — Covers <code>car-diagnosis</code> (local LLM for vehicle diagnostics), <code>token-diet</code> (token efficiency tool), and <code>cliare</code> (CLI agent framework) among 35 trending repos. Worth skimming the text version at <a href="https://githubawesome.com/github-trending-today-39/">githubawesome.com</a> to spot useful tools.</p>
+</li>
+</ul>
+<h3 id="snowflake">Snowflake</h3>
+<ul>
+<li><strong><a href="https://github.com/curious-bigcat/cortex-code-mlops-demo">curious-bigcat/cortex-code-mlops-demo</a></strong> ⭐ 5 — End-to-end MLOps demo for Snowflake Cortex Code: fraud detection and revenue forecasting with scikit-learn/XGBoost, Model Registry, warehouse inference, drift monitoring, and automated Tasks + Alerts. A useful template for productionising Cortex models with proper monitoring — especially relevant given the Cortex Agent optimisation playbook published today.</li>
+</ul>
+<h3 id="llm-development">LLM Development</h3>
+<ul>
+<li>
+<p><strong><a href="https://github.com/syphon1c/promptsense_ai">syphon1c/promptsense_ai</a></strong> ⭐ 2 — Lightweight cross-platform agent that captures AI traffic at the endpoint (IDE assistants, browser chat, local models, and agents), then classifies it, catches data leaks, and can block or redact in real time. Addresses a growing security concern as agent-based workflows proliferate across IDEs and browsers — I'd deploy this in dev environments to catch accidental API key leaks and PII exposure in prompts.</p>
+</li>
+<li>
+<p><strong><a href="https://simonwillison.net/2026/Jul/6/hy3/#atom-everything">Simon Willison / tencent/Hy3 note</a></strong> — Simon's typically sharp analysis of the Tencent Hy3 release, with context on the active-parameter count and Apache 2.0 licensing implications. Essential reading for any engineer evaluating whether to adopt Hy3.</p>
+</li>
+</ul>
+<hr />
+<h2 id="trending-repos">Trending Repos</h2>
+<ul>
+<li>✅ <strong><a href="https://github.com/Mintplex-Labs/anything-llm">Mintplex-Labs/anything-llm</a></strong> ⭐ 62,724 — Local-first agent experience: docs, RAG, multi-model; stop renting your intelligence.</li>
+<li>✅ <strong><a href="https://github.com/mudler/LocalAI">mudler/LocalAI</a></strong> ⭐ 47,378 — Open-source engine for LLMs, vision, voice, image, video — runs on any hardware, no GPU required.</li>
+<li>✅ <strong><a href="https://github.com/iOfficeAI/AionUi">iOfficeAI/AionUi</a></strong> ⭐ 29,410 — Free local 24/7 Cowork app for OpenClaw, Hermes Agent, Claude Code, Codex, OpenCode, Gemini CLI and 20+ CLI tools.</li>
+<li>✅ <strong><a href="https://github.com/Fosowl/agenticSeek">Fosowl/agenticSeek</a></strong> ⭐ 26,611 — Fully local Manus AI clone: autonomous agent with web browsing and coding, no APIs, no monthly fees.</li>
+<li>✅ <strong><a href="https://github.com/dyad-sh/dyad">dyad-sh/dyad</a></strong> ⭐ 20,843 — Local open-source AI app builder (v0/Lovable/Replit/Bolt alternative).</li>
+<li>✅ <strong><a href="https://github.com/affaan-m/ECC">affaan-m/ECC</a></strong> ⭐ 226,762 — Agent harness performance optimisation system: skills, instincts, memory, security for Claude Code, Codex, Opencode, Cursor.</li>
+<li>✅ <strong><a href="https://github.com/NousResearch/hermes-agent">NousResearch/hermes-agent</a></strong> ⭐ 210,573 — The agent that grows with you (Nous Research's flagship agent framework).</li>
+<li>✅ <strong><a href="https://github.com/langgenius/dify">langgenius/dify</a></strong> ⭐ 147,990 — Production-ready platform for agentic workflow development.</li>
+<li><strong><a href="https://github.com/langchain-ai/langchain">langchain-ai/langchain</a></strong> ⭐ 141,153 — The agent engineering platform.</li>
+<li>✅ <strong><a href="https://github.com/browser-use/browser-use">browser-use/browser-use</a></strong> ⭐ 103,213 — Make websites accessible for AI agents; automate tasks online.</li>
+<li><strong><a href="https://github.com/apache/doris">apache/doris</a></strong> ⭐ 15,584 — Easy-to-use high-performance unified analytics database.</li>
+<li>✅ <strong><a href="https://github.com/Canner/WrenAI">Canner/WrenAI</a></strong> ⭐ 15,749 — GenBI for AI agents: governed text-to-SQL over Snowflake, BigQuery, Postgres, Redshift, Databricks, and more.</li>
+<li><strong><a href="https://github.com/cube-js/cube">cube-js/cube</a></strong> ⭐ 20,353 — Open-source semantic layer for AI, BI, and embedded analytics.</li>
+<li><strong><a href="https://github.com/meridian-catalog/meridian">meridian-catalog/meridian</a></strong> ⭐ 2 — Open-source Iceberg-native catalog with built-in table maintenance and governed agent access. Early stage.</li>
+<li><strong><a href="https://github.com/Bike4Mind/bike4mind">Bike4Mind/bike4mind</a></strong> ⭐ 40 — Open-core AI workbench: notebooks, agents, RAG, voice, images across any model (OpenAI, Anthropic, Google, xAI, or local via Ollama/vLLM). BSL 1.1 → Apache 2.0 on a two-year clock.</li>
+<li><strong><a href="https://github.com/synthetic-sciences/openscience">synthetic-sciences/openscience</a></strong> ⭐ 949 — Open-source AI workbench for scientific research.</li>
+<li><strong><a href="https://github.com/uzairansaruzi/hermex">uzairansaruzi/hermex</a></strong> ⭐ 664 — Native iPhone app for your Hermes agent.</li>
+</ul>
+<hr />
+      <nav class="pager"><a class="pager-link" href="2026-07-06-weekly.html"><span class="mono dim">Older</span><span>Weekly Watchlist — 2026-07-06</span></a></nav>
+    </article>
+    <aside class="toc" id="toc">
+  <div class="toc-label">On this page</div>
+  <ul><li><a href="#breaking-news">Breaking News</a></li><li><a href="#todays-watchlist">Today&#x27;s Watchlist</a></li><li><a href="#headlines">Headlines</a></li><li><a href="#worth-a-skim">Worth a Skim</a></li><li><a href="#repo-watchlist">Repo Watchlist</a></li><li><a href="#trending-repos">Trending Repos</a></li></ul>
+  <div class="toc-read" id="toc-read" hidden><span id="toc-read-pct">0</span>% read</div>
+</aside>
+  </div>
+</main>
+<footer class="site-foot">
+  <span>Curated daily by the watchlist pipeline.</span>
+  <a href="https://github.com/ai-burst/ai-burst.github.io">Source</a>
+</footer>
+<script src="../assets/app.js?v=a1eee5a1"></script>
+</body>
+</html>
