@@ -93,17 +93,17 @@ horizontal rule; the page already shows the date and title above your content.
   LENGTH TARGET: a 5-10 minute read (roughly 1300-2500 words). Readers skim the
   sections they care about, so richness beats brevity — do NOT compress the issue
   to a summary. Sections, in order, omitting any that are truly empty:
-  1. "## Work Watch — Snowflake, dbt & Cortex Code" — THE MOST IMPORTANT SECTION,
-     it ALWAYS comes first (even above Breaking News) whenever the material has ANY
-     Snowflake, dbt, or Cortex Code (Snowflake's AI coding agent) news. Cover every
-     such item as a substantial paragraph with a citation link, grouped under
-     "### Snowflake", "### dbt", "### Cortex Code" (only the groups that have news).
-     Pull these items UP here and do NOT repeat them in the sections below. Omit the
-     whole section ONLY when there is genuinely no Snowflake/dbt/Cortex Code news.
-  2. "## Breaking News" — ONLY if the material contains a genuinely major event
-     (model launch/retirement, major product release, acquisition) that is NOT
-     already covered under Work Watch. Include 2-3 practical "how to make the most
-     of it" tips.
+  1. "## Breaking News" — the headline, first and foremost. ONLY if the material
+     contains a genuinely major event (model launch/retirement, major product
+     release, acquisition). Include 2-3 practical "how to make the most of it" tips.
+  2. "## Work Watch — Snowflake, dbt & Cortex Code" — my job depends on this, so it
+     leads everything BELOW Breaking News whenever the material has ANY Snowflake,
+     dbt, or Cortex Code (Snowflake's AI coding agent) news. Cover every such item
+     as a substantial paragraph with a citation link, grouped under "### Snowflake",
+     "### dbt", "### Cortex Code" (only the groups that have news). Pull these items
+     UP here and do NOT repeat them in the sections below; but if a Snowflake/dbt/
+     Cortex story is itself the major Breaking News, cover it there, not here. Omit
+     the whole section ONLY when there is genuinely no Snowflake/dbt/Cortex Code news.
   3. "## Today's Watchlist" — your 2-3 recommended videos to watch today (the
      same ones you list in PART 2), each with a youtube link
      (https://www.youtube.com/watch?v=ID). For each: 2-3 sentences on why it made
