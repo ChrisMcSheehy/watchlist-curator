@@ -1,7 +1,8 @@
 name: daily
 on:
   schedule:
-    - cron: "30 5 * * *"
+    # off the :00/:30 marks — GitHub drops scheduled jobs there under peak load
+    - cron: "23 5 * * *"
   workflow_dispatch: {}
 permissions:
   contents: write

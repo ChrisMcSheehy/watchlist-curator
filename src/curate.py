@@ -125,4 +125,12 @@ unverified. If the DEEP RESEARCH REPORT uses numbered
 markers like [3] that map to its trailing 'Sources:' list, render them as inline markdown
 links to the URL (e.g. ([3](https://...))) — never leave a bare [n]. Do not invent items
 not present in the material above."""
-    return parse_llm_json(llm.complete("curation", prompt, system=SYSTEM))
+    # the model occasionally emits malformed JSON (truncated, or a glitched key
+    # like "newsletter_markmarkdown"); one fresh sample almost always fixes it
+    for attempt in range(2):
+        try:
+            return parse_llm_json(llm.complete("curation", prompt, system=SYSTEM))
+        except ValueError:  # JSONDecodeError and "no JSON object" both subclass it
+            if attempt:
+                raise
+            print("curation JSON unparseable, retrying once")
