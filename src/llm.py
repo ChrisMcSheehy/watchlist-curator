@@ -7,6 +7,14 @@ import yaml
 CONFIG = pathlib.Path(__file__).resolve().parent.parent / "config" / "models.yaml"
 URL = "https://openrouter.ai/api/v1/chat/completions"
 
+# ponytail: per-process running total — each `python -m src.daily/weekly` is its
+# own process, so a module global is enough; not thread-safe, don't need it to be.
+_run_cost = 0.0
+
+
+def run_cost():
+    return _run_cost
+
 
 def model_for(role):
     return yaml.safe_load(CONFIG.read_text())[role]
@@ -45,6 +53,9 @@ def complete(role, prompt, system=None, timeout=1800, with_citations=False):
     data = r.json()
     u = data.get("usage") or {}
     cost = u.get("cost")
+    if isinstance(cost, (int, float)):
+        global _run_cost
+        _run_cost += cost
     print(f"[llm] {model_for(role)} prompt={u.get('prompt_tokens', '?')} "
           f"completion={u.get('completion_tokens', '?')} tokens"
           + (f" cost=${cost:.4f}" if isinstance(cost, (int, float)) else ""))

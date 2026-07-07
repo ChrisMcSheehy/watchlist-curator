@@ -3,7 +3,7 @@ import pathlib
 import yaml
 from datetime import date
 
-from . import curate, site, sources, youtube
+from . import curate, llm, site, sources, youtube
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
@@ -19,7 +19,8 @@ def write_newsletter(today, markdown, kind="Daily", summary="", tags=None):
     path = DOCS / "newsletters" / f"{today.isoformat()}{suffix}.md"
     front = yaml.safe_dump(
         {"title": f"{kind} Signal — {today.isoformat()}",
-         "summary": summary, "tags": tags or []},
+         "summary": summary, "tags": tags or [],
+         "cost_usd": round(llm.run_cost(), 4)},  # LLM spend for this issue's run
         allow_unicode=True, sort_keys=False)
     path.write_text(f"---\n{front}---\n\n" + markdown + "\n", encoding="utf-8")
     site.build()

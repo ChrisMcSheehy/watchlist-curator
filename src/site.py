@@ -40,9 +40,18 @@ def parse_issue(path):
         "tags": [str(t) for t in (meta.get("tags") or [])],
         "breaking": "## Breaking News" in body,
         "minutes": max(1, round(len(body.split()) / 230)),
+        "cost": meta.get("cost_usd"),  # None on issues from before cost tracking
         "headings": H2_RE.findall(body),
         "body": body.strip(),
     }
+
+
+def _cost_span(it):
+    c = it.get("cost")
+    if not isinstance(c, (int, float)):
+        return ""  # issues from before cost tracking simply omit it
+    return (f'\n    <span class="mono dim" title="LLM cost to generate this issue">'
+            f'${c:.3f}</span>')
 
 
 def _first_paragraph(body):
@@ -117,7 +126,7 @@ def _issue_card(it):
   <div class="issue-meta">
     <span class="mono">{_display_date(it["date"])}</span>
     {badges}
-    <span class="mono dim">{it["minutes"]} min read</span>
+    <span class="mono dim">{it["minutes"]} min read</span>{_cost_span(it)}
   </div>
   <h2 class="issue-title"><a href="newsletters/{it["slug"]}.html">{html.escape(it["title"])}</a></h2>
   <p class="issue-summary">{html.escape(it["summary"])}</p>
@@ -242,7 +251,7 @@ def _issue_html(it, prev_it, next_it):
       <div class="issue-meta">
         <span class="mono">{_display_date(it["date"])}</span>
         {badges}
-        <span class="mono dim">{it["minutes"]} min read</span>
+        <span class="mono dim">{it["minutes"]} min read</span>{_cost_span(it)}
       </div>
       <h1>{html.escape(it["title"])}</h1>
       {body_html}
