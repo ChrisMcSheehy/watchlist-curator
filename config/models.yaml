@@ -3,8 +3,5 @@
 # Sonar family, or any model with the :online suffix). Plain chat models like
 # DeepSeek cannot search and will invent news.
 research: perplexity/sonar                     # daily news sweep (cents/run, real search)
-# :floor = route to the cheapest provider per request, dodging DeepSeek's
-# official-API surge pricing (Beijing 9-12 & 14-18). Drop the suffix if a
-# cut-rate provider ever produces noticeably worse writing.
-curation: deepseek/deepseek-v4-pro:floor       # ranking + writing; no web access needed
+curation: deepseek/deepseek-v4-pro             # ranking + writing; no web access needed
 deep_research: perplexity/sonar-deep-research  # weekly deep dive (~$2/run)

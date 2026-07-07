@@ -59,7 +59,7 @@ def seen_repos(folder=NEWSLETTERS):
 SYSTEM = (
     "You are a personal news curator producing a daily briefing for a data/AI "
     "engineer. You are precise, skeptical of hype, and always cite sources as "
-    "markdown links. Respond with a single JSON object and nothing else."
+    "markdown links."
 )
 
 
@@ -84,23 +84,18 @@ DEEP RESEARCH REPORT (last 24h):
 NEW GITHUB REPOS (created recently, by stars):
 {json.dumps(repos, indent=1)}
 
-Return JSON with exactly these keys:
-- "playlist_videos": the best videos for me to WATCH today, honouring the
-  'video_preferences' in my interests above. TARGET: 2-3 picks — only give fewer
-  on a genuinely thin day where nothing else clears the bar. Hard constraint:
-  total minutes <= 60. Each: {{"id", "title", "minutes", "why"}} ('why' = one sentence).
-- "summary": one plain sentence (max 25 words) capturing today's most notable story,
-  for the newsletter index page.
-- "tags": 3-6 lowercase kebab-case topic tags for this issue, drawn from themes like
-  local-llm, snowflake, dbt, llm-dev, breaking-news, hardware, agents, quantization.
-- "newsletter_markdown": a newspaper-style daily briefing in markdown.
+Produce TWO parts, in this exact order.
+
+PART 1 — the newsletter itself, as plain markdown (do NOT wrap it in code fences
+or JSON). A newspaper-style daily briefing.
   LENGTH TARGET: a 5-10 minute read (roughly 1300-2500 words). Readers skim the
   sections they care about, so richness beats brevity — do NOT compress the issue
   to a summary. Sections, in order, omitting any that are truly empty:
   1. "## Breaking News" — ONLY if the material contains a genuinely major event
      (model launch/retirement, major product release, acquisition). Include 2-3
      practical "how to make the most of it" tips.
-  2. "## Today's Watchlist" — the playlist_videos with youtube links
+  2. "## Today's Watchlist" — your 2-3 recommended videos to watch today (the
+     same ones you list in PART 2), each with a youtube link
      (https://www.youtube.com/watch?v=ID). For each: 2-3 sentences on why it made
      the cut and the most interesting specific claims from its transcript.
   3. "## Headlines" — the day's notable items as substantial paragraphs (2-4
@@ -124,13 +119,31 @@ cite only Reddit when a primary source is available. Flag rumour/leak-tier items
 unverified. If the DEEP RESEARCH REPORT uses numbered
 markers like [3] that map to its trailing 'Sources:' list, render them as inline markdown
 links to the URL (e.g. ([3](https://...))) — never leave a bare [n]. Do not invent items
-not present in the material above."""
-    # the model occasionally emits malformed JSON (truncated, or a glitched key
-    # like "newsletter_markmarkdown"); one fresh sample almost always fixes it
+not present in the material above.
+
+PART 2 — on a line by itself the marker ===METADATA===, then a single JSON object
+(and nothing after it) with exactly these keys:
+- "playlist_videos": the videos you featured in "## Today's Watchlist", best
+  first, honouring the 'video_preferences' in my interests above. TARGET: 2-3 —
+  only fewer on a genuinely thin day. Hard constraint: total minutes <= 60.
+  Each: {{"id", "title", "minutes", "why"}} ('why' = one sentence).
+- "summary": one plain sentence (max 25 words) capturing today's most notable story,
+  for the newsletter index page.
+- "tags": 3-6 lowercase kebab-case topic tags for this issue, drawn from themes like
+  local-llm, snowflake, dbt, llm-dev, breaking-news, hardware, agents, quantization."""
+    # keep the big markdown body OUT of any JSON string: the newsletter is plain
+    # text (PART 1), only the small metadata block (PART 2) is parsed as JSON, so a
+    # stray quote/newline in a 2000-word briefing can't break the whole response
     for attempt in range(2):
+        text = llm.complete("curation", prompt, system=SYSTEM)
+        body, sep, meta = text.rpartition("===METADATA===")
         try:
-            return parse_llm_json(llm.complete("curation", prompt, system=SYSTEM))
-        except ValueError:  # JSONDecodeError and "no JSON object" both subclass it
+            if not sep:
+                raise ValueError("no ===METADATA=== marker in curation output")
+            data = parse_llm_json(meta)
+            data["newsletter_markdown"] = body.strip()
+            return data
+        except ValueError:  # JSONDecodeError and "no marker/object" both subclass it
             if attempt:
                 raise
-            print("curation JSON unparseable, retrying once")
+            print("curation output unparseable, retrying once")
