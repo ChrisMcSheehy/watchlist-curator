@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Signal — 2026-07-08</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../assets/rafiki.png">
+<link rel="stylesheet" href="../assets/style.css?v=a1eee5a1">
+<link rel="alternate" type="application/rss+xml" title="The Daily Signal" href="../feed.xml">
+<script>
+try { document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"; } catch (e) {}
+</script>
+
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html">Signal<span class="brand-accent">.</span></a>
+  <nav class="head-nav">
+    <a href="https://www.youtube.com/@Data-Signal/playlists" class="head-link">Playlists</a>
+    <a href="../feed.xml" class="head-link">RSS</a>
+    <button id="theme-toggle" class="toggle" type="button" aria-label="Switch theme">
+      <span class="toggle-light">Light</span><span class="toggle-dark">Dark</span>
+    </button>
+  </nav>
+</header>
+<main class="wrap article-wrap">
+  <div class="article-grid">
+    <article class="prose">
+      <p class="crumbs"><a href="../index.html">All issues</a></p>
+      <div class="issue-meta">
+        <span class="mono">08 Jul 2026</span>
+        <span class="badge badge-daily">daily</span><span class="badge badge-breaking">Breaking news</span>
+        <span class="mono dim">8 min read</span>
+    <span class="mono dim" title="LLM cost to generate this issue">$0.030</span>
+      </div>
+      <h1>Daily Signal — 2026-07-08</h1>
+      <h2 id="breaking-news">Breaking News</h2>
+<p>The open-weight scene just got a triple shot of new horsepower. <strong>NVIDIA released Nemotron-Labs-3-Puzzle-75B</strong>, a 75B-total / 9B-active Mixture-of-Experts model that lands squarely in the sweet spot for high-end local inference (<a href="https://huggingface.co/nvidia/NVIDIA-Nemotron-Labs-3-Puzzle-75B-A9B-BF16">Hugging Face</a>, <a href="https://www.reddit.com/r/LocalLLaMA/comments/1upsdmi/nvidianvidianemotronlabs3puzzle75ba9bbf16_hugging/">discussion</a>). At the same time, the mysterious <strong>Hy3 model appeared</strong>, already working in llama.cpp with a 1M-token context window and pulling coherent output from Q2_K quantisation (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1upv8bp/llamacpp_hy3_pr_ggufs/">PR + GGUFs</a>). Meanwhile <strong>Unsloth uploaded DeepSeek-V4-Flash GGUFs</strong>, making the weight-efficient MoE available off-the-shelf for local runners (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uq9krm/unsloth_has_uploaded_several_sizes_of/">Unsloth uploads</a>). If you’re building a local LLM stack today, the menu has never been richer.</p>
+<p><strong>How to make the most of it:</strong></p>
+<ul>
+<li>If you have a 24 GB+ GPU, pull the Nemotron 75B Q2 or Q3 quantisation — with 9B active params it’s plannable even on a single 4090 or RTX 6000, and the MoE routing gives it a compute-perplexity advantage that’s perfect for long-form coding or agent work.</li>
+<li>For low‑VRAM tinkering, Hy3’s Q2_K GGUF is already pushing 10‑11 t/s on a 5090 + DDR5. The llama.cpp PR is young, so expect rapid speed‑ups as the community layers on flash‑attention and tensor parallelism.</li>
+<li>Schedule a few hours to replace your current DeepSeek‑derived model with the new DeepSeek-V4‑Flash quants — Unsloth’s releases usually include K‑quants and imatrix-enhanced weights, so you can eke out extra speed without a hardware upgrade.</li>
+</ul>
+<hr />
+<h2 id="work-watch-snowflake-dbt-cortex-code">Work Watch — Snowflake, dbt &amp; Cortex Code</h2>
+<h3 id="snowflake">Snowflake</h3>
+<p>Snowflake’s <strong>AI FinOps blog post</strong> delivers the governance and cost‑management tooling that every team spending real money on <code>AI_COMPLETE</code> has been asking for: budgets, per‑user quotas, and granular usage breakdowns so you can stop guessing what your Snowflake‑native LLM calls cost (<a href="https://www.snowflake.com/content/snowflake-site/global/en/blog/ai-finops-cost-management-governance-snowflake">Snowflake blog</a>). For a data/AI engineer trying to keep costs predictable while scaling agent‑based pipelines, this moves AI spend from black‑box to a budgeted line item.</p>
+<p>The <strong>BYO‑model to <code>AI_COMPLETE</code></strong> guide shows how to plug your own open‑weight model (or any provider‑hosted endpoint) directly into Snowflake’s AI workflow (<a href="https://medium.com/snowflake/snowflake-bring-your-own-ai-model-to-ai-complete-choose-the-right-model-for-every-ai-workload-6cab944e8c2e">Snowflake BYO model</a>). This means you can pair Snowflake’s built‑in governance with the exact model you’d already use locally — think Qwen 3.6 35B or DeepSeek‑V4 — and run inference right where the governed data lives, with zero data‑exfiltration risk.</p>
+<p>A third piece, <strong>“Your Kafka Infrastructure Just Became Optional,”</strong> teases a new Snowpipe‑Streaming‑native path for event ingestion that removes the five‑hop pipeline (Kafka → Schema Registry → S3 → ETL → load) and lands events directly into Snowflake as queryable rows (<a href="https://medium.com/snowflake/your-kafka-infrastructure-just-became-optional-8b72a40250e2">Snowflake Kafka piece</a>). If you’re maintaining Kafka‑to‑Snowflake glue in your dbt‑powered data pipelines, this could simplify the operational side substantially — though it’s worth validating latency guarantees for your specific SLAs.</p>
+<h3 id="dbt">dbt</h3>
+<p><strong>dbt‑core v1.12.0rc1</strong> dropped with breaking changes: the experimental <code>dbt login</code> and <code>dbt-state</code> plugin are removed, so any CI/CD scripts using <code>--manage-state</code> need to be updated before upgrading (<a href="https://github.com/dbt-labs/dbt-core/releases/tag/v1.12.0rc1">release notes</a>). On the gain side, it tolerates dbt Fusion‑specific <code>warn_error_options</code> names without errors, which smooths socialising the new model‑centric metadata interface across the team.</p>
+<p><strong>New case study: connecting AI agents to dbt + Databricks with MCP.</strong> Integral Ad Science built an MCP bridge that lets agents talk directly to dbt models and Databricks, collapsing dashboard‑debugging time from hours to minutes (<a href="https://www.getdbt.com/blog/mcp-dbt-databricks">dbt blog</a>). For anyone running agent‑driven analytics (Cortex Code or augmenting dbt jobs with LLM‑based root‑cause analysis), this is a concrete, replicable pattern worth studying.</p>
+<hr />
+<details class="watchlist" id="todays-watchlist" open><summary>Today's Watchlist</summary>
+<ol>
+<li><strong><a href="https://www.youtube.com/watch?v=1yBU41auQhw">DeepSeek's New AI Speed Hack Is Amazing</a></strong> — Two Minute Papers unpacks DeepSeek’s latest attention‑speed work, which promises major inference acceleration for MoE models. If you’re serving local Mixture-of-Experts models through llama.cpp or vLLM, the technique described here could directly improve your throughput without new hardware.  </li>
+<li><strong><a href="https://www.youtube.com/watch?v=_Jdjq6pgIRg">Fable 5 Made llama.cpp 64% Faster (No New Hardware)</a></strong> — Cloud Codes walks through how Anthropic’s Claude Fable 5 autonomously profiled and rewrote llama.cpp, achieving a staggering 64% speed‑up on a consumer GPU. The video dissects the PCIe bottleneck for MoE models and explains exactly where the agent’s changes made the difference — essential viewing if you rely on llama.cpp day‑to‑day.  </li>
+<li><strong><a href="https://www.youtube.com/watch?v=MYPLpkENs7A">AI Gateway: The Layer Every AI Stack Eventually Needs</a></strong> — Devsplainers gives a broad tutorial on AI gateways, LLM gateways, MCP gateways, and inference gateways, showing how they centralise cost, rate‑limiting, logging, and model selection. For a data/AI engineer orchestrating multiple LLM calls from Snowflake, dbt models, or agent loops, this is a pragmatic design overview that will save you months of ad‑hoc middleware building.</li>
+</ol>
+<hr />
+</details><h2 id="headlines">Headlines</h2>
+<h3 id="nemotron-moe-hy3-and-deepseek-v4-flash-fill-the-local-runners-menu">Nemotron MoE, Hy3, and DeepSeek V4 Flash fill the local runner’s menu</h3>
+<p>NVIDIA’s <strong>Nemotron-Labs-3-Puzzle-75B-A9B</strong> uses top‑8 MoE routing and a Mistral‑like‑ish architecture to pack 75B total parameters into a mere 9B active, making it feasible on a single high‑end consumer GPU even in BF16 (<a href="https://huggingface.co/nvidia/NVIDIA-Nemotron-Labs-3-Puzzle-75B-A9B-BF16">Hugging Face</a>, <a href="https://www.reddit.com/r/LocalLLaMA/comments/1upsdmi/nvidianvidianemotronlabs3puzzle75ba9bbf16_hugging/">discussion</a>). Early reports suggest solid code‑generation performance; paired with DFlash attention (below), this could become a go‑to for local Copilot‑class assistants.</p>
+<p>The <strong>Hy3‑1M model</strong> — origin still unknown — already churns out 10‑11 tokens/s at Q2_K on a 5090 + DDR5, thanks to a rapid llama.cpp pull request (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1upv8bp/llamacpp_hy3_pr_ggufs/">PR + GGUFs</a>). Users are getting coherent text out of a Q2 quant, which is practically unheard of for a 1M‑context model; watch for upstream MTP or MLA support to land soon.</p>
+<p><strong>Unsloth’s DeepSeek‑V4‑Flash GGUFs</strong> are live, including several quantisation levels that make the model runnable on 16‑24 GB GPUs (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uq9krm/unsloth_has_uploaded_several_sizes_of/">Unsloth upload</a>). If you’re already using DeepSeek‑V4‑derived models for batch‑processing or long‑context retrieval, this is the lowest‑friction upgrade path.</p>
+<h3 id="llamacpp-gets-a-double-shot-of-speed-dflash-lands-fable-5-rewrites-parts">llama.cpp gets a double shot of speed: DFlash lands, Fable 5 rewrites parts</h3>
+<p>A freshly merged <strong>DFlash attention kernel</strong> in llama.cpp delivers up to a <strong>4.44× speed‑up at 36K context</strong> on Qwen 3.6 27B, tested on an RTX 6000 Pro (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uq0h4o/i_tested_freshly_merged_dflash_in_llamacpp_on/">real‑world test</a>). Combined with the KV‑cache quantisation study by bartowski, you can now tune K‑Vs to Q6 or even Q5 with minimal quality loss while squeezing out extra memory for batch size (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uq0fpe/qwen3627b_effect_of_kv_quantization_on_kld_q8_q6/">KV quant study</a>).</p>
+<p>Separately, Cloud Codes reports that <strong>Claude Fable 5 autonomously optimised llama.cpp’s MoE‑weight handling</strong>, yielding a 64% speed increase on consumer GPUs by reworking the expert‑weight shuffling across the PCIe bus (<a href="https://www.youtube.com/watch?v=_Jdjq6pgIRg">video</a>). This claim hasn’t been independently verified, but the methodology (profiling the bus bottleneck and rewriting C++ code) is entirely plausible and could be reproduced manually; keep an eye on ggml‑org/llama.cpp pull requests for similar changes being upstreamed.</p>
+<h3 id="smaller-but-mighty-qwen-36-liquid-fixes-and-a-3mparam-fastweight-transformer">Smaller but mighty: Qwen 3.6, liquid-fixes, and a 3M‑param fast‑weight transformer</h3>
+<p>Multiple users are reporting that <strong>Qwen 3.6 35B‑A3B feels “good enough” for coding and technical planning</strong> when paired with proper tooling and disciplined prompting, drastically lowering the pressure to keep chasing frontier models (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uq2ouy/local_already_feels_good_enough/">local already feels good enough</a>). Meanwhile, <strong>Liquid AI’s Antidoom</strong> method removes reasoning‑doom‑loop failures from models like Qwen3.5‑4B, dropping rates from 23% to 1% with greedy sampling — a straightforward post‑processing patch that can make local reasoning agents far more reliable (<a href="https://x.com/liquidai/status/2074494130126811473">Antidoom tweet</a>, <a href="https://www.reddit.com/r/LocalLLaMA/comments/1upxqq0/liquid_ai_antidoom_the_doom_loop_remover/">discussion</a>).</p>
+<p>On the research frontier, a <strong>trained fast‑weight memory demo</strong> installs never‑trained rules at inference time on a single RTX 3090, showcasing a 3M‑param transformer that can learn entirely new behaviours in a forward pass — no fine‑tuning, no test‑time training loop (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1uptw9b/a_trained_fastweight_memory_a_3mparam_transformer/">paper &amp; model</a>). For agent‑centric workflows, this hints at a future where a local base model can absorb on‑the‑fly instructions without backprop.</p>
+<h3 id="gemma-4-technical-report-drops-chinaaccess-rumours-swirl">Gemma 4 technical report drops; China‑access rumours swirl</h3>
+<p>Google’s <strong>Gemma 4 Technical Report</strong> has been published, detailing architecture and training decisions for the latest Gemma family (<a href="https://arxiv.org/pdf/2607.02770">paper</a>, <a href="https://www.reddit.com/r/LocalLLaMA/comments/1uprjf3/gemma_4_technical_report/">Reddit</a>). The open‑weight models aren’t new, but the report gives dense information for anyone fine‑tuning Gemma‑derived models.</p>
+<p>A <strong>Reuters report claiming Beijing will curb overseas access to Chinese AI models</strong> was rapidly debunked by the r/LocalLLaMA community, which pointed to contradictory official statements (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1upvw37/beijing_is_not_looking_at_curbing_overseas_access/">debunk post</a>). While the original Reuters article still stands as a report, treat it as unverified conjecture for now; no new regulations have been confirmed. In the same vein, a separate <em>CRN</em> article notes that <strong>Chinese AI models are gaining traction among US companies as OpenAI and Anthropic costs surge</strong> (<a href="https://www.reddit.com/r/LocalLLaMA/comments/1upsezw/chinese_ai_models_are_gaining_ground_with_us/">CRN piece</a>), underlining why ensuring mirrored access to models like DeepSeek and GLM is crucial for your open‑weight strategy.</p>
+<hr />
+<h2 id="worth-a-skim">Worth a Skim</h2>
+<h3 id="claude-just-crossed-the-consciousness-line-and-anthropic-admitted-it-ai-revolution">Claude Just Crossed The Consciousness Line And Anthropic Admitted It (<a href="https://www.youtube.com/watch?v=M5-3c6mzq0U">AI Revolution</a>)</h3>
+<ul>
+<li>Anthropic’s research on a “global workspace” inside Claude (the “J space”) reveals a hidden intermediate representation where thoughts form before the final output, effectively a model’s internal scratchpad (<a href="https://www.youtube.com/watch?v=M5-3c6mzq0U">video description</a>).</li>
+<li>The video claims this workspace shows “reasoning before answers,” potentially offering a new window for interpretability and safety checks — though the term “consciousness” is the YouTuber’s editorial spin, not the paper’s claim.</li>
+<li>For local‑model hackers, understanding J‑space could lead to hallucination‑detection routers (like the one built on open models using Jacobian Lens, <a href="https://www.reddit.com/r/LocalLLaMA/comments/1upy31x/i_tested_anthropics_new_jacobian_lens_on_open/">Reddit</a>), so it’s worth watching the high‑level explanation even if the title is breathless.</li>
+</ul>
+<h3 id="do-this-before-fable-5-goes-api-only-extract-its-intelligence-to-opus-48-cloud-codes">Do This Before Fable 5 Goes API Only — Extract Its Intelligence to Opus 4.8 (<a href="https://www.youtube.com/watch?v=9JBZzZSO3hA">Cloud Codes</a>)</h3>
+<ul>
+<li>The video outlines a 5‑step “model extraction” playbook: use Fable 5’s existing flat‑rate access to generate large volumes of distilled reasoning traces, then fine‑tune a cheaper model (Opus 4.8) on that data before the pay‑per‑token switch.</li>
+<li>Key trick: instead of wasting tokens on throwaway demos, produce structured “chain‑of‑thought” pairs that teach the student model to replicate the frontier model’s planning style — a technique directly applicable to distilling any short‑lived API model into a local LLM you can run permanently.</li>
+<li>This is a tactical guide for squeezing a knowledge‑transfer value out of a model that’s about to become prohibitively expensive, and the general distillation strategy works for any temporary‑access frontier model.</li>
+</ul>
+<hr />
+<h2 id="repo-watchlist">Repo Watchlist</h2>
+<h3 id="dbt_1">dbt</h3>
+<ul>
+<li><strong><a href="https://github.com/sodadata/soda-core">sodadata/soda-core</a></strong> — Data Contracts engine for the modern data stack, with native dbt integration. Use it to enforce schema‑level expectations across your Snowflake‑dbt pipeline, catching quality regressions before they hit dashboards.</li>
+</ul>
+<h3 id="snowflake_1">Snowflake</h3>
+<ul>
+<li><strong><a href="https://github.com/heriol-valdo/LinkedIn-Snowflake">heriol-valdo/LinkedIn-Snowflake</a></strong> — A small but well‑structured demo that loads LinkedIn job data into Snowflake, transforms it, and visualises with Streamlit. A handy reference for spinning up a quick Snowflake‑native app without over‑engineering.</li>
+</ul>
+<h3 id="local-llms">Local LLMs</h3>
+<ul>
+<li><strong><a href="https://github.com/SmileLikeYe/agent-chief">SmileLikeYe/agent-chief</a></strong> — A local‑first layer that sits between your LLM agents and your attention span: it decides when to interrupt you based on agent outputs, alerts, and feeds. Perfect for the scenario where you’re running a fleet of local coding agents and don’t want a constant stream of notifications.</li>
+</ul>
+<h3 id="llm-development">LLM Development</h3>
+<ul>
+<li><strong><a href="https://github.com/eli-labz/Cognitive-Core-Skills">eli-labz/Cognitive-Core-Skills</a></strong> — A universal taxonomy of cognitive skills (memory, reasoning, planning, action…) for LLMs and agents, complete with 159 skill cards and benchmarks. Use it to evaluate your own agent’s capability gaps or to design more comprehensive prompt‑engineering test suites.</li>
+<li><strong><a href="https://github.com/Shubhamsaboo/awesome-llm-apps">Shubhamsaboo/awesome-llm-apps</a></strong> — 100+ runnable AI agent &amp; RAG apps, already starred by 116k people. If you need a starter‑template for a Snowflake‑backed RAG system or a local‑LLM‑based assistant, clone one of these and swap in your model.</li>
+</ul>
+<hr />
+<h2 id="trending-repos">Trending Repos</h2>
+<p>✅ <strong><a href="https://github.com/SQLMesh/sqlmesh">SQLMesh/sqlmesh</a></strong> — dbt‑compatible transformation framework with built‑in column‑level lineage and semantic mapping.<br />
+✅ <strong><a href="https://github.com/lightdash/lightdash">lightdash/lightdash</a></strong> — Agentic BI platform, turning dbt metrics into interactive analytics at code‑speed.<br />
+✅ <strong><a href="https://github.com/airbytehq/airbyte">airbytehq/airbyte</a></strong> — Open‑source ELT engine that can feed Snowflake from hundreds of sources; heavyweight but reliable.<br />
+✅ <strong><a href="https://github.com/grafana/grafana">grafana/grafana</a></strong> — Visualisation and observability platform, useful for monitoring dbt job metrics.<br />
+✅ <strong><a href="https://github.com/mlflow/mlflow">mlflow/mlflow</a></strong> — AI engineering platform for tracking, evaluating, and monitoring LLM agents; integrates with Snowflake.<br />
+<a href="https://github.com/getredash/redash">getredash/redash</a> — Another dashboarding tool; lighter than Metabase, works with Snowflake.<br />
+<a href="https://github.com/dbeaver/dbeaver">dbeaver/dbeaver</a> — Universal database IDE; good for peeking at Snowflake metadata tables.<br />
+<a href="https://github.com/PrefectHQ/prefect">PrefectHQ/prefect</a> — Workflow orchestration; can schedule dbt runs and LLM‑agent jobs seamlessly.<br />
+<a href="https://github.com/vectordotdev/vector">vectordotdev/vector</a> — Observability data pipeline, could ship Snowflake query‑logs to a local Loki instance.</p>
+      <nav class="pager"><a class="pager-link" href="2026-07-07.html"><span class="mono dim">Older</span><span>Daily Signal — 2026-07-07</span></a></nav>
+    </article>
+    <aside class="toc" id="toc">
+  <div class="toc-label">On this page</div>
+  <ul><li><a href="#breaking-news">Breaking News</a></li><li><a href="#work-watch-snowflake-dbt-cortex-code">Work Watch — Snowflake, dbt &amp; Cortex Code</a></li><li><a href="#todays-watchlist">Today&#x27;s Watchlist</a></li><li><a href="#headlines">Headlines</a></li><li><a href="#worth-a-skim">Worth a Skim</a></li><li><a href="#repo-watchlist">Repo Watchlist</a></li><li><a href="#trending-repos">Trending Repos</a></li></ul>
+  <div class="toc-read" id="toc-read" hidden><span id="toc-read-pct">0</span>% read</div>
+</aside>
+  </div>
+</main>
+<footer class="site-foot">
+  <span>Curated daily by the watchlist pipeline.</span>
+  <a href="https://github.com/ai-burst/ai-burst.github.io">Source</a>
+</footer>
+<script src="../assets/app.js?v=a1eee5a1"></script>
+</body>
+</html>
